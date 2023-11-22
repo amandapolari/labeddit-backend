@@ -105,11 +105,11 @@ export class UserController {
         }
     };
 
-    // DELETE => AINDA NÃO TEM ARQUITETURA APLICADA
+    // DELETE
     public deleteUser = async (req: Request, res: Response) => {
         try {
             const input = {
-                id: req.params.id,
+                idToDelete: req.params.id,
                 token: req.headers.authorization as string,
             };
 

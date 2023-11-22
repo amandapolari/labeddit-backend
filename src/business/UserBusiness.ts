@@ -13,6 +13,7 @@ import {
     UpdateUserInputDTO,
     UpdateUserOutputDTO,
 } from '../dtos/users/updateUserDto';
+import { DeleteUserInputDTO } from '../dtos/users/deleteUserDto';
 
 export class UserBusiness {
     constructor(
@@ -266,42 +267,38 @@ export class UserBusiness {
         return output;
     };
 
-    // DELETE => AINDA NÃO TEM ARQUITETURA APLICADA
-    public deleteUser = async (input: any) => {
-        const { id, token } = input;
+    // DELETE
+    public deleteUser = async (input: DeleteUserInputDTO) => {
+        // capturando os dados do input:
+        const { idToDelete, token } = input;
 
+        // capturando o token:
         const payload = this.tokenManager.getPayload(token);
 
+        // verificando se o usuário digitou um token:
         if (payload === null) {
             throw new BadRequestError(
                 'É necessário um token para acessar essa funcionalidade'
             );
         }
 
-        const userDB: UserDB[] = await this.userDatabase.findAllUsers();
+        // verificando se o id que o usuário quer deletar existe:
+        const userDBExists = await this.userDatabase.findUserById(idToDelete);
 
-        const mapUser = new Map();
+        if (!userDBExists) {
+            throw new BadRequestError("'id' não encontrado");
+        }
 
-        userDB.forEach((user) => {
-            mapUser.set(user.id, user);
-        });
-
-        const userToDelete = mapUser.get(id);
-
+        // verificando se o id do usuário que está logado é o mesmo que o id que ele quer deletar:
         if (payload.role !== 'ADMIN') {
-            if (userToDelete.id !== payload.id) {
+            if (idToDelete !== payload.id) {
                 throw new BadRequestError(
                     'Você não tem permissão para deletar este usuário'
                 );
             }
         }
 
-        const userDBExists = await this.userDatabase.findUserById(id);
-
-        if (!userDBExists) {
-            throw new BadRequestError("'id' não existe");
-        }
-
+        // criando o usuário:
         const user = new User(
             userDBExists.id,
             userDBExists.nickname,
@@ -312,8 +309,10 @@ export class UserBusiness {
             userDBExists.updated_at
         );
 
-        await this.userDatabase.deleteUserById(id);
+        // deletando o usuário no banco de dados:
+        await this.userDatabase.deleteUserById(idToDelete);
 
+        // criando o output:
         const output = {
             message: 'Usuário deletado com sucesso',
         };
