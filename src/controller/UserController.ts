@@ -4,6 +4,7 @@ import { BaseError } from '../errors/BaseError';
 import { SignupSchema } from '../dtos/users/signupDto';
 import { ZodError } from 'zod';
 import { LoginSchema } from '../dtos/users/loginDto';
+import { UpdateUserSchema } from '../dtos/users/updateUserDto';
 
 export class UserController {
     constructor(private userBusiness: UserBusiness) {}
@@ -78,16 +79,16 @@ export class UserController {
         }
     };
 
-    // UPDATE => AINDA NÃO TEM ARQUITETURA APLICADA
+    // UPDATE
     public updateUser = async (req: Request, res: Response) => {
         try {
-            const input = {
-                id: req.params.id,
+            const input = UpdateUserSchema.parse({
+                idToEdit: req.params.id,
                 token: req.headers.authorization as string,
-                newNickname: req.body.nickname as string,
-                newEmail: req.body.email as string,
-                newPassword: req.body.password as string,
-            };
+                nickname: req.body.nickname,
+                email: req.body.email,
+                password: req.body.password,
+            });
 
             const output = await this.userBusiness.updateUser(input);
 

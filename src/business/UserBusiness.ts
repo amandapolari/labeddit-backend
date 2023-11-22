@@ -9,6 +9,10 @@ import { IdGenerator } from '../services/IdGenerator';
 import { TokenManager } from '../services/TokenManager';
 import { HashManager } from '../services/HashManager';
 import { GetUsersInputDTO } from '../dtos/users/getUsersDto';
+import {
+    UpdateUserInputDTO,
+    UpdateUserOutputDTO,
+} from '../dtos/users/updateUserDto';
 
 export class UserBusiness {
     constructor(
@@ -152,42 +156,67 @@ export class UserBusiness {
         return output;
     };
 
-    // UPDATE => AINDA NÃO TEM ARQUITETURA APLICADA
-    public updateUser = async (input: any) => {
-        const { id, token, newNickname, newEmail, newPassword } = input;
+    // UPDATE
+    public updateUser = async (input: UpdateUserInputDTO) => {
+        // capturando os dados do input:
+        const { idToEdit, token, nickname, email, password } = input;
 
+        // hashando a senha:
+        let hashPassword;
+
+        if (password) {
+            hashPassword = await this.hashManager.hash(password);
+        }
+
+        // capturando o token:
         const payload = this.tokenManager.getPayload(token);
 
+        // verificando se o usuário digitou um token:
         if (payload === null) {
             throw new BadRequestError(
                 'É necessário um token para acessar essa funcionalidade'
             );
         }
 
-        const userDB: UserDB[] = await this.userDatabase.findAllUsers();
-
-        const mapUser = new Map();
-
-        userDB.forEach((user) => {
-            mapUser.set(user.id, user);
-        });
-
-        const userToEdit = mapUser.get(id);
-
+        // verificando se o id do usuário que está logado é o mesmo que o id que ele quer editar:
         if (payload.role !== 'ADMIN') {
-            if (userToEdit.id !== payload.id) {
+            if (idToEdit !== payload.id) {
                 throw new BadRequestError(
                     'Você não tem permissão para editar este usuário'
                 );
             }
         }
 
-        const userDBExists = await this.userDatabase.findUserById(id);
+        // verificando se o id que o usuário quer editar existe:
+        const userDBExists = await this.userDatabase.findUserById(idToEdit);
 
         if (!userDBExists) {
             throw new BadRequestError("'id' não encontrado");
         }
 
+        // verificando se o nickname que o usuário quer editar já existe:
+        if (nickname) {
+            const userDBNicknameExists =
+                await this.userDatabase.findUserByNickname(nickname);
+
+            if (userDBNicknameExists) {
+                throw new BadRequestError("'nickname' já existe");
+            }
+        }
+
+        // verificando se o email que o usuário quer editar já existe:
+
+        if (email) {
+            const userDBEmailExists = await this.userDatabase.findUserByEmail(
+                email
+            );
+
+            if (userDBEmailExists) {
+                throw new BadRequestError("'email' já existe");
+            }
+        }
+
+        // criando o usuário:
         const user = new User(
             userDBExists.id,
             userDBExists.nickname,
@@ -198,45 +227,40 @@ export class UserBusiness {
             userDBExists.updated_at
         );
 
-        if (newNickname !== undefined) {
-            if (typeof newNickname !== 'string') {
-                throw new BadRequestError("'newNickname' deve ser string");
-            }
-        }
+        // atualizando o nickname:
+        nickname && user.setNickname(nickname);
 
-        if (newEmail !== undefined) {
-            if (typeof newEmail !== 'string') {
-                throw new BadRequestError("'newEmail' deve ser string");
-            }
-        }
+        // atualizando o email:
+        email && user.setEmail(email);
 
-        if (newPassword !== undefined) {
-            if (typeof newPassword !== 'string') {
-                throw new BadRequestError("'newPassword' deve ser string");
-            }
-        }
+        // atualizando a senha:
+        password && user.setPassword(hashPassword as string);
 
-        newNickname && user.setNickname(newNickname);
-        newEmail && user.setEmail(newEmail);
-        newPassword && user.setPassword(newPassword);
+        // atualizando a data de atualização:
+        user.setUpdatedAt(format(new Date(), 'dd-MM-yyyy HH:mm:ss'));
 
+        // criando o objeto newUser:
         const newUser: UserDB = {
             id: user.getId(),
             nickname: user.getNickname(),
             email: user.getEmail(),
             password: user.getPassword(),
             role: user.getRole(),
-            created_at: user.getUpdatedAt(),
+            created_at: user.getCreatedAt(),
             updated_at: user.getUpdatedAt(),
         };
 
-        // console.log(newUser);
+        // atualizando o usuário no banco de dados:
+        await this.userDatabase.updateUserById(idToEdit, newUser);
 
-        await this.userDatabase.updateUserById(id, newUser);
-
-        const output = {
+        // criando o output:
+        const output: UpdateUserOutputDTO = {
             message: 'Usuário atualizado com sucesso',
-            user: user,
+            user: {
+                nickname: user.getNickname(),
+                email: user.getEmail(),
+                updated_at: user.getUpdatedAt(),
+            },
         };
 
         return output;
