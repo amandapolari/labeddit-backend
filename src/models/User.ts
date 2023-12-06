@@ -95,4 +95,28 @@ export class User {
     public setUpdatedAt(updatedAt: string): void {
         this.updatedAt = updatedAt;
     }
+
+    public toDBModel(): UserDB {
+        return {
+            id: this.id,
+            nickname: this.nickname,
+            email: this.email,
+            password: this.password,
+            role: this.role,
+            created_at: this.createdAt,
+            updated_at: this.updatedAt,
+        };
+    }
+
+    public toBusinessModel(): UserModel {
+        return {
+            id: this.id,
+            nickname: this.nickname,
+            email: this.email,
+            password: this.password,
+            role: this.role,
+            createdAt: this.createdAt,
+            updatedAt: this.updatedAt,
+        };
+    }
 }

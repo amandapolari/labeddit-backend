@@ -71,7 +71,6 @@ CREATE TABLE
         created_at TEXT NOT NULL,
         updated_at TEXT NOT NULL,
         comment_count INTEGER NOT NULL,
-        like_count INTEGER NOT NULL,
         FOREIGN KEY (creator_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
     );
 
@@ -86,8 +85,7 @@ INSERT INTO
         dislikes,
         created_at,
         updated_at,
-        comment_count,
-        like_count
+        comment_count
     )
 VALUES (
         'p001',
@@ -97,7 +95,6 @@ VALUES (
         0,
         '20-11-2023 15:50:01',
         '20-11-2023 15:50:01',
-        0,
         0
     ), (
         'p002',
@@ -107,7 +104,6 @@ VALUES (
         0,
         '20-11-2023 16:55:26',
         '20-11-2023 16:55:26',
-        0,
         0
     ), (
         'p003',
@@ -117,7 +113,6 @@ VALUES (
         0,
         '20-11-2023 17:28:40',
         '20-11-2023 17:28:40',
-        0,
         0
     ), (
         'p004',
@@ -127,7 +122,6 @@ VALUES (
         0,
         '20-11-2023 18:20:02',
         '20-11-2023 18:20:02',
-        0,
         0
     );
 
@@ -202,6 +196,10 @@ VALUES (
         '20-11-2023 18:20:02',
         '20-11-2023 18:20:02'
     );
+
+--------------------------------------------
+
+-- Deleção:
 
 DROP TABLE users;
 
