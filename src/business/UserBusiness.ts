@@ -1,3 +1,8 @@
+/*
+TODO:
+[ ] Tipar saídas: exemplo => Promise<signupOutputDTO>
+*/
+
 import { format } from 'date-fns';
 import { UserDatabase } from '../database/UserDatabase';
 import { TokenPayload, USER_ROLES, User, UserDB } from '../models/User';
@@ -8,12 +13,15 @@ import { NotFoundError } from '../errors/NotFoundError';
 import { IdGenerator } from '../services/IdGenerator';
 import { TokenManager } from '../services/TokenManager';
 import { HashManager } from '../services/HashManager';
-import { GetUsersInputDTO } from '../dtos/users/getUsersDto';
+import { GetUsersInputDTO, GetUsersOutputDTO } from '../dtos/users/getUsersDto';
 import {
     UpdateUserInputDTO,
     UpdateUserOutputDTO,
 } from '../dtos/users/updateUserDto';
-import { DeleteUserInputDTO } from '../dtos/users/deleteUserDto';
+import {
+    DeleteUserInputDTO,
+    DeleteUserOutputDTO,
+} from '../dtos/users/deleteUserDto';
 
 export class UserBusiness {
     constructor(
@@ -24,7 +32,9 @@ export class UserBusiness {
     ) {}
 
     // GET
-    public getUsers = async (input: GetUsersInputDTO) => {
+    public getUsers = async (
+        input: GetUsersInputDTO
+    ): Promise<GetUsersOutputDTO> => {
         const { q, token } = input;
 
         const payload = this.tokenManager.getPayload(token);
@@ -150,7 +160,9 @@ export class UserBusiness {
     };
 
     // UPDATE
-    public updateUser = async (input: UpdateUserInputDTO) => {
+    public updateUser = async (
+        input: UpdateUserInputDTO
+    ): Promise<UpdateUserOutputDTO> => {
         // capturando os dados do input:
         const { idToEdit, token, nickname, email, password } = input;
 
@@ -260,7 +272,9 @@ export class UserBusiness {
     };
 
     // DELETE
-    public deleteUser = async (input: DeleteUserInputDTO) => {
+    public deleteUser = async (
+        input: DeleteUserInputDTO
+    ): Promise<DeleteUserOutputDTO> => {
         // capturando os dados do input:
         const { idToDelete, token } = input;
 
