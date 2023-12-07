@@ -76,9 +76,9 @@ export class UserBusiness {
             nickname,
             email,
             hashPassword,
-            USER_ROLES.NORMAL,
+            // USER_ROLES.NORMAL,
             // Somente para teste:
-            // USER_ROLES.ADMIN,
+            USER_ROLES.ADMIN,
             format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
             format(new Date(), 'dd-MM-yyyy HH:mm:ss')
         );
@@ -252,7 +252,7 @@ export class UserBusiness {
             user: {
                 nickname: user.getNickname(),
                 email: user.getEmail(),
-                updated_at: user.getUpdatedAt(),
+                updatedAt: user.getUpdatedAt(),
             },
         };
 

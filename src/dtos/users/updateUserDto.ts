@@ -13,7 +13,7 @@ export interface UpdateUserOutputDTO {
     user: {
         nickname: string;
         email: string;
-        updated_at: string;
+        updatedAt: string;
     };
 }
 

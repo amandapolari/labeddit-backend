@@ -15,24 +15,15 @@ CREATE TABLE
 
 -- Inserção de dados na tabela users
 
-INSERT INTO
-    users (
-        id,
-        nickname,
-        email,
-        password,
-        role,
-        created_at,
-        updated_at
-    )
+INSERT INTO users
 VALUES (
         'u001',
         'amanda',
         'amanda@gmail.com',
         'Amanda@123',
         'ADMIN',
-        '20-11-2023 15:50:01',
-        '20-11-2023 15:50:01'
+        '07-12-2023 10:37:11',
+        '07-12-2023 10:37:11'
     ), (
         'u002',
         'luan',
@@ -76,17 +67,7 @@ CREATE TABLE
 
 -- Inserção de dados na tabela posts
 
-INSERT INTO
-    posts (
-        id,
-        creator_id,
-        content,
-        likes,
-        dislikes,
-        created_at,
-        updated_at,
-        comment_count
-    )
+INSERT INTO posts
 VALUES (
         'p001',
         'u003',
@@ -138,8 +119,7 @@ CREATE TABLE
 
 -- Inserção de dados na tabela likes_dislikes
 
-INSERT INTO
-    likes_dislikes (user_id, post_id, like)
+INSERT INTO likes_dislikes
 VALUES ('u001', 'p001', 1), ('u002', 'p002', 2), ('u001', 'p003', 3), ('u002', 'p004', 3);
 
 -- Criação da tabela comments
@@ -158,15 +138,7 @@ CREATE TABLE
 
 -- Inserção de dados na tabela comments
 
-INSERT INTO
-    comments (
-        id,
-        post_id,
-        creator_id,
-        content,
-        created_at,
-        updated_at
-    )
+INSERT INTO comments
 VALUES (
         'c001',
         'p001',
