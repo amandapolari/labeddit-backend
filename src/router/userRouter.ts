@@ -19,8 +19,6 @@ const userController = new UserController(
 
 userRouter.post('/login', userController.login);
 userRouter.post('/signup', userController.signup);
-
-// AINDA NÃO TEM ARQUITETURA APLICADA
 userRouter.get('/', userController.getUsers);
 userRouter.put('/:id', userController.updateUser);
 userRouter.delete('/:id', userController.deleteUser);

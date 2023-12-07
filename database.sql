@@ -5,8 +5,8 @@
 CREATE TABLE
     users (
         id TEXT PRIMARY KEY UNIQUE NOT NULL,
-        nickname TEXT UNIQUE NOT NULL,
-        email TEXT UNIQUE NOT NULL,
+        nickname TEXT NOT NULL,
+        email TEXT NOT NULL,
         password TEXT NOT NULL,
         role TEXT NOT NULL,
         created_at TEXT NOT NULL,
@@ -57,11 +57,11 @@ CREATE TABLE
         id TEXT PRIMARY KEY UNIQUE NOT NULL,
         creator_id TEXT NOT NULL,
         content TEXT NOT NULL,
-        likes INTEGER NOT NULL,
-        dislikes INTEGER NOT NULL,
         created_at TEXT NOT NULL,
         updated_at TEXT NOT NULL,
-        comment_count INTEGER NOT NULL,
+        likes_count INTEGER NOT NULL,
+        dislikes_count INTEGER NOT NULL,
+        comments_count INTEGER NOT NULL,
         FOREIGN KEY (creator_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
     );
 
@@ -72,37 +72,37 @@ VALUES (
         'p001',
         'u003',
         'texto do post 1',
-        0,
-        0,
         '20-11-2023 15:50:01',
         '20-11-2023 15:50:01',
+        0,
+        0,
         0
     ), (
         'p002',
         'u001',
         'texto do post 2',
-        0,
-        0,
         '20-11-2023 16:55:26',
         '20-11-2023 16:55:26',
+        0,
+        0,
         0
     ), (
         'p003',
         'u004',
         'texto do post 3',
-        0,
-        0,
         '20-11-2023 17:28:40',
         '20-11-2023 17:28:40',
+        0,
+        0,
         0
     ), (
         'p004',
         'u002',
         'texto do post 4',
-        0,
-        0,
         '20-11-2023 18:20:02',
         '20-11-2023 18:20:02',
+        0,
+        0,
         0
     );
 

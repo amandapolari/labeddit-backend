@@ -1,0 +1,18 @@
+{
+    "user_registration_success": "Seu cadastro foi concluído com sucesso. Bem-vindo(a) à nossa comunidade!",
+    "user_login_success": "Login realizado com sucesso",
+    "user_update_sucess": "Dados do usuário atualizados com sucesso",
+    "user_delete_sucess": "Conta deletada com sucesso",
+    "post_created_sucess": "Post criado com sucesso",
+    "post_updated_sucess": "Post atualizado com sucesso",
+    "post_deleted_sucess": "Post deletado com sucesso",
+    "invalid_token": "Desculpe, parece que o token não é válido. Por favor, faça login novamente.",
+    "not_authorized": "Oops, você não tem permissão para acessar esse recurso. Tente fazer login com uma conta autorizada.",
+    "email_not_available": "Desculpe, ocorreu um problema com o e-mail fornecido. Por favor, escolha outro e-mail ou entre em contato conosco para obter ajuda.",
+    "nickname_not_available": "Oops! O apelido que você escolheu já está em uso. Por favor, escolha um apelido diferente e tente novamente.",
+    "id_already_exists": "Oops! Parece que ocorreu um problema durante o cadastro. Por favor, tente novamente mais tarde ou entre em contato com o suporte se o problema persistir.",
+    "email_not_found": "Oops! Não encontramos uma conta associada a esse e-mail. Verifique se digitou o e-mail corretamente ou cadastre-se para criar uma nova conta.",
+    "id_post_not_found": "Oops! Não encontramos um post com o ID fornecido. Verifique se o ID está correto e tente novamente.",
+    "id_user_not_found": "Oops! Não encontramos um usuário com o ID fornecido. Verifique se o ID está correto e tente novamente.",
+    "incorrect_credentials": "Oops! Parece que o e-mail ou a senha estão incorretos. Por favor, verifique suas credenciais e tente novamente."
+}

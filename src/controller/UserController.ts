@@ -5,6 +5,7 @@ import { SignupSchema } from '../dtos/users/signupDto';
 import { ZodError } from 'zod';
 import { LoginSchema } from '../dtos/users/loginDto';
 import { UpdateUserSchema } from '../dtos/users/updateUserDto';
+import { GetUsersSchema } from '../dtos/users/getUsersDto';
 
 export class UserController {
     constructor(private userBusiness: UserBusiness) {}
@@ -12,10 +13,10 @@ export class UserController {
     // GET
     public getUsers = async (req: Request, res: Response) => {
         try {
-            const input = {
+            const input = GetUsersSchema.parse({
                 q: req.query.q as string | undefined,
                 token: req.headers.authorization as string,
-            };
+            });
 
             const output = await this.userBusiness.getUsers(input);
 
