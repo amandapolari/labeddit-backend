@@ -5,8 +5,8 @@
 CREATE TABLE
     users (
         id TEXT PRIMARY KEY UNIQUE NOT NULL,
-        nickname TEXT UNIQUE NOT NULL,
-        email TEXT UNIQUE NOT NULL,
+        nickname TEXT NOT NULL,
+        email TEXT NOT NULL,
         password TEXT NOT NULL,
         role TEXT NOT NULL,
         created_at TEXT NOT NULL,

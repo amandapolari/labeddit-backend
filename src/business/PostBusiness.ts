@@ -14,15 +14,18 @@ import {
     UpdatePostOutputDTO,
 } from '../dtos/posts/updatePostDto';
 import { BadRequestError } from '../errors/BadRequestError';
-import { Post } from '../models/Post';
+import { GetPost, Post } from '../models/Post';
 import { IdGenerator } from '../services/IdGenerator';
 import { TokenManager } from '../services/TokenManager';
+import { UserDatabase } from '../database/UserDatabase';
+import messages from '../messages/messages.json';
 
 export class PostBusiness {
     constructor(
         private idGenerator: IdGenerator,
         private tokenManager: TokenManager,
-        private postDatabase: PostDatabase
+        private postDatabase: PostDatabase,
+        private userDatabase: UserDatabase
     ) {}
 
     // GET
@@ -30,13 +33,10 @@ export class PostBusiness {
         input: GetPostsInputDTO
     ): Promise<GetPostsOutputDTO> => {
         const { q, token } = input;
-
         const payload = this.tokenManager.getPayload(token);
 
         if (payload === null) {
-            throw new BadRequestError(
-                'É necessário um token para acessar essa funcionalidade'
-            );
+            throw new BadRequestError(messages.invalid_token);
         }
 
         const postsDB = await this.postDatabase.findPosts(
@@ -57,7 +57,34 @@ export class PostBusiness {
             return post.toBusinessModel();
         });
 
-        const output = posts;
+        const usersDB = await this.userDatabase.findUsers(
+            q as string | undefined
+        );
+
+        const mapUserIdName = new Map();
+
+        usersDB.forEach((user: any) => {
+            mapUserIdName.set(user.id, user);
+        });
+
+        const output = posts.map((post) => {
+            const user = mapUserIdName.get(post.creatorId);
+            console.log(user);
+
+            return {
+                id: post.id,
+                creator: {
+                    id: user.id,
+                    nickname: user.nickname,
+                },
+                createdAt: post.createdAt,
+                updatedAt: post.updatedAt,
+                content: post.content,
+                likesCount: post.likesCount,
+                dislikesCount: post.dislikesCount,
+                commentsCount: post.commentsCount,
+            };
+        });
 
         return output;
     };
@@ -71,9 +98,7 @@ export class PostBusiness {
         const payload = this.tokenManager.getPayload(token);
 
         if (payload === null) {
-            throw new BadRequestError(
-                'É necessário um token para acessar essa funcionalidade'
-            );
+            throw new BadRequestError(messages.invalid_token);
         }
 
         const id = this.idGenerator.generate();
@@ -94,7 +119,7 @@ export class PostBusiness {
         await this.postDatabase.createPost(newPost);
 
         const output = {
-            message: 'Post criado com sucesso',
+            message: messages.post_created_sucess,
             content,
         };
 
@@ -110,17 +135,17 @@ export class PostBusiness {
         const payload = this.tokenManager.getPayload(token);
 
         if (payload === null) {
-            throw new BadRequestError(
-                'É necessário um token para acessar essa funcionalidade'
-            );
+            throw new BadRequestError(messages.invalid_token);
         }
 
         const post = await this.postDatabase.findPostById(idToEdit);
 
+        if (!post) {
+            throw new BadRequestError(messages.id_post_not_found);
+        }
+
         if (post.creator_id !== payload.id) {
-            throw new BadRequestError(
-                'Você não pode editar um post que não é seu'
-            );
+            throw new BadRequestError(messages.not_authorized);
         }
 
         const updatedPost = new Post(
@@ -143,7 +168,7 @@ export class PostBusiness {
         );
 
         const output = {
-            message: 'Post atualizado com sucesso',
+            message: messages.post_updated_sucess,
             content,
         };
 
@@ -158,23 +183,23 @@ export class PostBusiness {
         const payload = this.tokenManager.getPayload(token);
 
         if (payload === null) {
-            throw new BadRequestError(
-                'É necessário um token para acessar essa funcionalidade'
-            );
+            throw new BadRequestError(messages.invalid_token);
         }
 
         const post = await this.postDatabase.findPostById(idToDelete);
 
+        if (!post) {
+            throw new BadRequestError(messages.id_post_not_found);
+        }
+
         if (post.creator_id !== payload.id) {
-            throw new BadRequestError(
-                'Você não pode deletar um post que não é seu'
-            );
+            throw new BadRequestError(messages.not_authorized);
         }
 
         await this.postDatabase.deletePost(idToDelete);
 
         const output = {
-            message: 'Post deletado com sucesso',
+            message: messages.post_deleted_sucess,
         };
 
         return output;

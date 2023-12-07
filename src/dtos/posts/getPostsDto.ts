@@ -1,12 +1,12 @@
 import z from 'zod';
-import { PostModel } from '../../models/Post';
+import { GetPost, PostModel } from '../../models/Post';
 
 export interface GetPostsInputDTO {
     q: string | undefined;
     token: string;
 }
 
-export type GetPostsOutputDTO = PostModel[];
+export type GetPostsOutputDTO = GetPost[];
 
 export const GetPostsSchema = z
     .object({

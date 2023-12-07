@@ -48,12 +48,12 @@ export class UserDatabase extends BaseDatabase {
         return userDB;
     }
 
-    public async findUserByNickname(id: string): Promise<string> {
+    public async findUserByNickname(nickname: string): Promise<string> {
         const [nicknameDB]: string[] = await BaseDatabase.connection(
             UserDatabase.TABLE_USERS
         )
             .select('nickname')
-            .where({ id });
+            .where({ nickname });
 
         return nicknameDB;
     }

@@ -1,8 +1,3 @@
-/*
-TODO:
-[ ] Tipar saídas: exemplo => Promise<signupOutputDTO>
-*/
-
 import { format } from 'date-fns';
 import { UserDatabase } from '../database/UserDatabase';
 import { TokenPayload, USER_ROLES, User, UserDB } from '../models/User';
@@ -22,6 +17,7 @@ import {
     DeleteUserInputDTO,
     DeleteUserOutputDTO,
 } from '../dtos/users/deleteUserDto';
+import messages from '../messages/messages.json';
 
 export class UserBusiness {
     constructor(
@@ -36,20 +32,19 @@ export class UserBusiness {
         input: GetUsersInputDTO
     ): Promise<GetUsersOutputDTO> => {
         const { q, token } = input;
-
         const payload = this.tokenManager.getPayload(token);
 
         if (payload === null) {
-            throw new BadRequestError(
-                'É necessário um token para acessar essa funcionalidade'
-            );
+            throw new BadRequestError(messages.invalid_token);
+        } else if (payload.role !== USER_ROLES.ADMIN) {
+            throw new BadRequestError(messages.not_authorized);
         }
 
         const usersDB = await this.userDatabase.findUsers(
             q as string | undefined
         );
 
-        const users = usersDB.map((userDB) => {
+        const output: GetUsersOutputDTO = usersDB.map((userDB) => {
             const user = new User(
                 userDB.id,
                 userDB.nickname,
@@ -62,8 +57,6 @@ export class UserBusiness {
             return user.toBusinessModel();
         });
 
-        const output = users;
-
         return output;
     };
 
@@ -71,12 +64,26 @@ export class UserBusiness {
     public signup = async (input: SignupInputDTO): Promise<SignupOutputDTO> => {
         const { nickname, email, password } = input;
 
+        const nicknameDBExists = await this.userDatabase.findUserByNickname(
+            nickname
+        );
+
+        if (nicknameDBExists) {
+            throw new BadRequestError(messages.nickname_not_available);
+        }
+
+        const emailDBExists = await this.userDatabase.findUserByEmail(email);
+
+        if (emailDBExists) {
+            throw new BadRequestError(messages.email_not_available);
+        }
+
         const id = this.idGenerator.generate();
 
         const userDBExists = await this.userDatabase.findUserById(id);
 
         if (userDBExists) {
-            throw new BadRequestError("'id' já existe");
+            throw new BadRequestError(messages.id_already_exists);
         }
 
         const hashPassword = await this.hashManager.hash(password);
@@ -86,9 +93,9 @@ export class UserBusiness {
             nickname,
             email,
             hashPassword,
-            // USER_ROLES.NORMAL,
+            USER_ROLES.NORMAL,
             // Somente para teste:
-            USER_ROLES.ADMIN,
+            // USER_ROLES.ADMIN,
             format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
             format(new Date(), 'dd-MM-yyyy HH:mm:ss')
         );
@@ -105,7 +112,7 @@ export class UserBusiness {
         const token = this.tokenManager.createToken(payload);
 
         const output: SignupOutputDTO = {
-            message: 'Usuário cadastrado com sucesso',
+            message: messages.user_registration_success,
             token,
         };
 
@@ -119,7 +126,7 @@ export class UserBusiness {
         const userDB = await this.userDatabase.findUserByEmail(email);
 
         if (!userDB) {
-            throw new NotFoundError("'email' não encontrado");
+            throw new NotFoundError(messages.email_not_available);
         }
 
         const hashedPassword = userDB.password;
@@ -130,7 +137,7 @@ export class UserBusiness {
         );
 
         if (!isPasswordCorrect) {
-            throw new BadRequestError("'email' ou 'password' incorretos");
+            throw new BadRequestError(messages.incorrect_credentials);
         }
 
         const user = new User(
@@ -152,7 +159,7 @@ export class UserBusiness {
         const token = this.tokenManager.createToken(payload);
 
         const output: LoginOutputDTO = {
-            message: 'Login realizado com sucesso',
+            message: messages.user_login_success,
             token: token,
         };
 
@@ -163,53 +170,40 @@ export class UserBusiness {
     public updateUser = async (
         input: UpdateUserInputDTO
     ): Promise<UpdateUserOutputDTO> => {
-        // capturando os dados do input:
         const { idToEdit, token, nickname, email, password } = input;
 
-        // hashando a senha:
         let hashPassword;
 
         if (password) {
             hashPassword = await this.hashManager.hash(password);
         }
 
-        // capturando o token:
         const payload = this.tokenManager.getPayload(token);
 
-        // verificando se o usuário digitou um token:
         if (payload === null) {
-            throw new BadRequestError(
-                'É necessário um token para acessar essa funcionalidade'
-            );
+            throw new BadRequestError(messages.invalid_token);
         }
 
-        // verificando se o id do usuário que está logado é o mesmo que o id que ele quer editar:
-        if (payload.role !== 'ADMIN') {
+        if (payload.role !== USER_ROLES.ADMIN) {
             if (idToEdit !== payload.id) {
-                throw new BadRequestError(
-                    'Você não tem permissão para editar este usuário'
-                );
+                throw new BadRequestError(messages.not_authorized);
             }
         }
 
-        // verificando se o id que o usuário quer editar existe:
         const userDBExists = await this.userDatabase.findUserById(idToEdit);
 
         if (!userDBExists) {
-            throw new BadRequestError("'id' não encontrado");
+            throw new BadRequestError(messages.id_user_not_found);
         }
 
-        // verificando se o nickname que o usuário quer editar já existe:
         if (nickname) {
             const userDBNicknameExists =
                 await this.userDatabase.findUserByNickname(nickname);
 
             if (userDBNicknameExists) {
-                throw new BadRequestError("'nickname' já existe");
+                throw new BadRequestError(messages.nickname_not_available);
             }
         }
-
-        // verificando se o email que o usuário quer editar já existe:
 
         if (email) {
             const userDBEmailExists = await this.userDatabase.findUserByEmail(
@@ -217,11 +211,10 @@ export class UserBusiness {
             );
 
             if (userDBEmailExists) {
-                throw new BadRequestError("'email' já existe");
+                throw new BadRequestError(messages.email_not_available);
             }
         }
 
-        // criando o usuário:
         const user = new User(
             userDBExists.id,
             userDBExists.nickname,
@@ -232,19 +225,14 @@ export class UserBusiness {
             userDBExists.updated_at
         );
 
-        // atualizando o nickname:
         nickname && user.setNickname(nickname);
 
-        // atualizando o email:
         email && user.setEmail(email);
 
-        // atualizando a senha:
         password && user.setPassword(hashPassword as string);
 
-        // atualizando a data de atualização:
         user.setUpdatedAt(format(new Date(), 'dd-MM-yyyy HH:mm:ss'));
 
-        // criando o objeto newUser:
         const newUser: UserDB = {
             id: user.getId(),
             nickname: user.getNickname(),
@@ -255,12 +243,10 @@ export class UserBusiness {
             updated_at: user.getUpdatedAt(),
         };
 
-        // atualizando o usuário no banco de dados:
         await this.userDatabase.updateUserById(idToEdit, newUser);
 
-        // criando o output:
         const output: UpdateUserOutputDTO = {
-            message: 'Usuário atualizado com sucesso',
+            message: messages.user_update_sucess,
             user: {
                 nickname: user.getNickname(),
                 email: user.getEmail(),
@@ -275,36 +261,26 @@ export class UserBusiness {
     public deleteUser = async (
         input: DeleteUserInputDTO
     ): Promise<DeleteUserOutputDTO> => {
-        // capturando os dados do input:
         const { idToDelete, token } = input;
 
-        // capturando o token:
         const payload = this.tokenManager.getPayload(token);
 
-        // verificando se o usuário digitou um token:
         if (payload === null) {
-            throw new BadRequestError(
-                'É necessário um token para acessar essa funcionalidade'
-            );
+            throw new BadRequestError(messages.invalid_token);
         }
 
-        // verificando se o id que o usuário quer deletar existe:
         const userDBExists = await this.userDatabase.findUserById(idToDelete);
 
         if (!userDBExists) {
-            throw new BadRequestError("'id' não encontrado");
+            throw new BadRequestError(messages.id_post_not_found);
         }
 
-        // verificando se o id do usuário que está logado é o mesmo que o id que ele quer deletar:
-        if (payload.role !== 'ADMIN') {
+        if (payload.role !== USER_ROLES.ADMIN) {
             if (idToDelete !== payload.id) {
-                throw new BadRequestError(
-                    'Você não tem permissão para deletar este usuário'
-                );
+                throw new BadRequestError(messages.not_authorized);
             }
         }
 
-        // criando o usuário:
         const user = new User(
             userDBExists.id,
             userDBExists.nickname,
@@ -315,12 +291,10 @@ export class UserBusiness {
             userDBExists.updated_at
         );
 
-        // deletando o usuário no banco de dados:
-        await this.userDatabase.deleteUserById(idToDelete);
+        await this.userDatabase.deleteUserById(user.getId());
 
-        // criando o output:
         const output = {
-            message: 'Usuário deletado com sucesso',
+            message: messages.user_delete_sucess,
         };
 
         return output;

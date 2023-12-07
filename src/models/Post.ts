@@ -20,6 +20,20 @@ export interface PostModel {
     commentsCount: number;
 }
 
+export interface GetPost {
+    id: string;
+    creator: {
+        id: string;
+        nickname: string;
+    };
+    content: string;
+    createdAt: string;
+    updatedAt: string;
+    likesCount: number;
+    dislikesCount: number;
+    commentsCount: number;
+}
+
 export class Post {
     constructor(
         protected id: string,
