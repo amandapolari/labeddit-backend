@@ -48,7 +48,7 @@ export class UserDatabase extends BaseDatabase {
         return userDB;
     }
 
-    public async findNicknameById(id: string): Promise<string> {
+    public async findUserByNickname(id: string): Promise<string> {
         const [nicknameDB]: string[] = await BaseDatabase.connection(
             UserDatabase.TABLE_USERS
         )

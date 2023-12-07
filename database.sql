@@ -15,24 +15,15 @@ CREATE TABLE
 
 -- Inserção de dados na tabela users
 
-INSERT INTO
-    users (
-        id,
-        nickname,
-        email,
-        password,
-        role,
-        created_at,
-        updated_at
-    )
+INSERT INTO users
 VALUES (
         'u001',
         'amanda',
         'amanda@gmail.com',
         'Amanda@123',
         'ADMIN',
-        '20-11-2023 15:50:01',
-        '20-11-2023 15:50:01'
+        '07-12-2023 10:37:11',
+        '07-12-2023 10:37:11'
     ), (
         'u002',
         'luan',
@@ -71,24 +62,12 @@ CREATE TABLE
         created_at TEXT NOT NULL,
         updated_at TEXT NOT NULL,
         comment_count INTEGER NOT NULL,
-        like_count INTEGER NOT NULL,
         FOREIGN KEY (creator_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
     );
 
 -- Inserção de dados na tabela posts
 
-INSERT INTO
-    posts (
-        id,
-        creator_id,
-        content,
-        likes,
-        dislikes,
-        created_at,
-        updated_at,
-        comment_count,
-        like_count
-    )
+INSERT INTO posts
 VALUES (
         'p001',
         'u003',
@@ -97,7 +76,6 @@ VALUES (
         0,
         '20-11-2023 15:50:01',
         '20-11-2023 15:50:01',
-        0,
         0
     ), (
         'p002',
@@ -107,7 +85,6 @@ VALUES (
         0,
         '20-11-2023 16:55:26',
         '20-11-2023 16:55:26',
-        0,
         0
     ), (
         'p003',
@@ -117,7 +94,6 @@ VALUES (
         0,
         '20-11-2023 17:28:40',
         '20-11-2023 17:28:40',
-        0,
         0
     ), (
         'p004',
@@ -127,7 +103,6 @@ VALUES (
         0,
         '20-11-2023 18:20:02',
         '20-11-2023 18:20:02',
-        0,
         0
     );
 
@@ -144,8 +119,7 @@ CREATE TABLE
 
 -- Inserção de dados na tabela likes_dislikes
 
-INSERT INTO
-    likes_dislikes (user_id, post_id, like)
+INSERT INTO likes_dislikes
 VALUES ('u001', 'p001', 1), ('u002', 'p002', 2), ('u001', 'p003', 3), ('u002', 'p004', 3);
 
 -- Criação da tabela comments
@@ -164,15 +138,7 @@ CREATE TABLE
 
 -- Inserção de dados na tabela comments
 
-INSERT INTO
-    comments (
-        id,
-        post_id,
-        creator_id,
-        content,
-        created_at,
-        updated_at
-    )
+INSERT INTO comments
 VALUES (
         'c001',
         'p001',
@@ -202,6 +168,10 @@ VALUES (
         '20-11-2023 18:20:02',
         '20-11-2023 18:20:02'
     );
+
+--------------------------------------------
+
+-- Deleção:
 
 DROP TABLE users;
 
