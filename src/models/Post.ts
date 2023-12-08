@@ -32,6 +32,21 @@ export interface GetPost {
     likesCount: number;
     dislikesCount: number;
     commentsCount: number;
+    // adicionei:
+    comments?: {
+        id: string;
+        creator: {
+            id: string;
+            nickname: string;
+        };
+        postId: string;
+        content: string;
+        createdAt: string;
+        updatedAt: string;
+        likesCount: number;
+        dislikesCount: number;
+    }[];
+    //
 }
 
 export class Post {
