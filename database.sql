@@ -1,6 +1,6 @@
 -- Active: 1700507012486@@127.0.0.1@3306
 
--- Criação da tabela users
+----------------------------------------------------------------------------------------------
 
 CREATE TABLE
     users (
@@ -13,7 +13,52 @@ CREATE TABLE
         updated_at TEXT NOT NULL
     );
 
--- Inserção de dados na tabela users
+CREATE TABLE
+    posts (
+        id TEXT PRIMARY KEY UNIQUE NOT NULL,
+        creator_id TEXT NOT NULL,
+        content TEXT NOT NULL,
+        created_at TEXT NOT NULL,
+        updated_at TEXT NOT NULL,
+        likes_count INTEGER NOT NULL,
+        dislikes_count INTEGER NOT NULL,
+        comments_count INTEGER NOT NULL,
+        FOREIGN KEY (creator_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
+    );
+
+CREATE TABLE
+    comments (
+        id TEXT PRIMARY KEY UNIQUE NOT NULL,
+        creator_id TEXT NOT NULL,
+        post_id TEXT NOT NULL,
+        content TEXT NOT NULL,
+        created_at TEXT NOT NULL,
+        updated_at TEXT NOT NULL,
+        likes_count INTEGER NOT NULL,
+        dislikes_count INTEGER NOT NULL,
+        FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE ON UPDATE CASCADE,
+        FOREIGN KEY (creator_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
+    );
+
+CREATE TABLE
+    posts_likes_dislikes (
+        user_id TEXT,
+        post_id TEXT,
+        like INTEGER NOT NULL,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+        FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE ON UPDATE CASCADE
+    );
+
+CREATE TABLE
+    comments_likes_dislikes (
+        user_id TEXT,
+        comment_id TEXT,
+        like INTEGER NOT NULL,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+        FOREIGN KEY (comment_id) REFERENCES comments(id) ON DELETE CASCADE ON UPDATE CASCADE
+    );
+
+----------------------------------------------------------------------------------------------
 
 INSERT INTO users
 VALUES (
@@ -49,23 +94,6 @@ VALUES (
         '20-11-2023 18:20:02',
         '20-11-2023 18:20:02'
     );
-
--- Criação da tabela posts
-
-CREATE TABLE
-    posts (
-        id TEXT PRIMARY KEY UNIQUE NOT NULL,
-        creator_id TEXT NOT NULL,
-        content TEXT NOT NULL,
-        created_at TEXT NOT NULL,
-        updated_at TEXT NOT NULL,
-        likes_count INTEGER NOT NULL,
-        dislikes_count INTEGER NOT NULL,
-        comments_count INTEGER NOT NULL,
-        FOREIGN KEY (creator_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
-    );
-
--- Inserção de dados na tabela posts
 
 INSERT INTO posts
 VALUES (
@@ -106,38 +134,6 @@ VALUES (
         0
     );
 
--- Criação da tabela likes_dislikes
-
-CREATE TABLE
-    likes_dislikes (
-        user_id TEXT,
-        post_id TEXT,
-        like INTEGER NOT NULL,
-        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
-        FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE ON UPDATE CASCADE
-    );
-
--- Inserção de dados na tabela likes_dislikes
-
-INSERT INTO likes_dislikes
-VALUES ('u001', 'p001', 1), ('u002', 'p002', 2), ('u001', 'p003', 3), ('u002', 'p004', 3);
-
--- Criação da tabela comments
-
-CREATE TABLE
-    comments (
-        id TEXT PRIMARY KEY NOT NULL,
-        post_id TEXT NOT NULL,
-        creator_id TEXT NOT NULL,
-        content TEXT NOT NULL,
-        created_at TEXT NOT NULL,
-        updated_at TEXT NOT NULL,
-        FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE ON UPDATE CASCADE,
-        FOREIGN KEY (creator_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
-    );
-
--- Inserção de dados na tabela comments
-
 INSERT INTO comments
 VALUES (
         'c001',
@@ -169,14 +165,22 @@ VALUES (
         '20-11-2023 18:20:02'
     );
 
---------------------------------------------
+INSERT INTO
+    posts_likes_dislikes
+VALUES ('u001', 'p001', 1), ('u002', 'p002', 0), ('u001', 'p003', 0), ('u002', 'p004', 1);
 
--- Deleção:
+INSERT INTO
+    comments_likes_dislikes
+VALUES ('u001', 'c001', 1), ('u002', 'p002', 1), ('u001', 'c003', 1), ('u002', 'c004', 0);
+
+----------------------------------------------------------------------------------------------
 
 DROP TABLE users;
 
 DROP TABLE posts;
 
-DROP TABLE likes_dislikes;
-
 DROP TABLE comments;
+
+DROP TABLE posts_likes_dislikes;
+
+DROP TABLE comments_likes_dislikes;

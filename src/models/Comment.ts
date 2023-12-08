@@ -1,64 +1,49 @@
-export interface PostDB {
+export interface CommentDB {
     id: string;
     creator_id: string;
+    post_id: string;
     content: string;
     created_at: string;
     updated_at: string;
     likes_count: number;
     dislikes_count: number;
-    comments_count: number;
 }
 
-export interface PostModel {
+export interface CommentModel {
     id: string;
     creatorId: string;
+    postId: string;
     content: string;
     createdAt: string;
     updatedAt: string;
     likesCount: number;
     dislikesCount: number;
-    commentsCount: number;
 }
 
-export interface GetPost {
+export interface GetComment {
     id: string;
     creator: {
         id: string;
         nickname: string;
     };
+    postId: string;
     content: string;
     createdAt: string;
     updatedAt: string;
     likesCount: number;
     dislikesCount: number;
-    commentsCount: number;
-    // adicionei:
-    comments?: {
-        id: string;
-        creator: {
-            id: string;
-            nickname: string;
-        };
-        postId: string;
-        content: string;
-        createdAt: string;
-        updatedAt: string;
-        likesCount: number;
-        dislikesCount: number;
-    }[];
-    //
 }
 
-export class Post {
+export class Comment {
     constructor(
         protected id: string,
         protected creatorId: string,
+        protected postId: string,
         protected content: string,
         protected createdAt: string,
         protected updatedAt: string,
         protected likesCount: number,
-        protected dislikesCount: number,
-        protected commentsCount: number
+        protected dislikesCount: number
     ) {}
 
     public getId(): string {
@@ -67,6 +52,10 @@ export class Post {
 
     public getCreatorId(): string {
         return this.creatorId;
+    }
+
+    public getPostId(): string {
+        return this.postId;
     }
 
     public getContent(): string {
@@ -89,16 +78,16 @@ export class Post {
         return this.dislikesCount;
     }
 
-    public getCommentsCount(): number {
-        return this.commentsCount;
-    }
-
     public setId(id: string): void {
         this.id = id;
     }
 
     public setCreatorId(creatorId: string): void {
         this.creatorId = creatorId;
+    }
+
+    public setPostId(postId: string): void {
+        this.postId = postId;
     }
 
     public setContent(content: string): void {
@@ -121,33 +110,29 @@ export class Post {
         this.dislikesCount = dislikesCount;
     }
 
-    public setCommentsCount(commentsCount: number): void {
-        this.commentsCount = commentsCount;
-    }
-
-    public toDatabaseModel(): PostDB {
+    public toDatabaseModel(): CommentDB {
         return {
             id: this.id,
             creator_id: this.creatorId,
+            post_id: this.postId,
             content: this.content,
             created_at: this.createdAt,
             updated_at: this.updatedAt,
             likes_count: this.likesCount,
             dislikes_count: this.dislikesCount,
-            comments_count: this.commentsCount,
         };
     }
 
-    public toBusinessModel(): PostModel {
+    public toBusinessModel(): CommentModel {
         return {
             id: this.id,
             creatorId: this.creatorId,
+            postId: this.postId,
             content: this.content,
             createdAt: this.createdAt,
             updatedAt: this.updatedAt,
             likesCount: this.likesCount,
             dislikesCount: this.dislikesCount,
-            commentsCount: this.commentsCount,
         };
     }
 }
