@@ -1,8 +1,9 @@
-import { CommentDB } from '../models/Comment';
+import { CommentDB, LikeDislikeDB } from '../models/Comment';
 import { BaseDatabase } from './BaseDatabase';
 
 export class CommentDatabase extends BaseDatabase {
     public static TABLE_COMMENTS = 'comments';
+    public static TABLE_LIKES_DISLIKES = 'comments_likes_dislikes';
 
     public async findComments(q: string | undefined) {
         let commentsDB;
@@ -90,4 +91,80 @@ export class CommentDatabase extends BaseDatabase {
             .del()
             .where({ post_id, user_id });
     }
+
+    // LIKE OR DISLIKE COMMENT
+    public findLikeOrDislike = async (
+        userId: string,
+        commentId: string
+    ): Promise<LikeDislikeDB | undefined> => {
+        const [result]: LikeDislikeDB[] = await BaseDatabase.connection(
+            CommentDatabase.TABLE_LIKES_DISLIKES
+        )
+            .select()
+            .where({
+                user_id: userId,
+                comment_id: commentId,
+            });
+
+        return result;
+    };
+
+    public createLikeDislike = async (
+        userId: string,
+        commentId: string,
+        like: number
+    ): Promise<void> => {
+        await BaseDatabase.connection(
+            CommentDatabase.TABLE_LIKES_DISLIKES
+        ).insert({
+            user_id: userId,
+            comment_id: commentId,
+            like,
+        });
+    };
+
+    public updateLikes = async (
+        commentId: string,
+        likes: number
+    ): Promise<void> => {
+        await BaseDatabase.connection(CommentDatabase.TABLE_COMMENTS)
+            .update({ likes_count: likes })
+            .where({ id: commentId });
+    };
+
+    public updateDislikes = async (
+        commentId: string,
+        dislikes: number
+    ): Promise<void> => {
+        await BaseDatabase.connection(CommentDatabase.TABLE_COMMENTS)
+            .update({ dislikes_count: dislikes })
+            .where({ id: commentId });
+    };
+
+    public removeLikeDislike = async (
+        commentId: string,
+        userId: string
+    ): Promise<void> => {
+        await BaseDatabase.connection(CommentDatabase.TABLE_LIKES_DISLIKES)
+            .delete()
+            .where({
+                comment_id: commentId,
+                user_id: userId,
+            });
+    };
+
+    public updateLikeDislike = async (
+        commentId: string,
+        userId: string,
+        like: number
+    ): Promise<void> => {
+        await BaseDatabase.connection(CommentDatabase.TABLE_LIKES_DISLIKES)
+            .update({
+                like,
+            })
+            .where({
+                comment_id: commentId,
+                user_id: userId,
+            });
+    };
 }

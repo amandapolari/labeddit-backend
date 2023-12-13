@@ -22,6 +22,11 @@ import {
     DeleteCommentInputDTO,
     DeleteCommentOutputDTO,
 } from '../dtos/comments/deleteCommentDto';
+import {
+    LikeOrDislikeCommentInputDTO,
+    LikeOrDislikeCommentOutputDTO,
+} from '../dtos/comments/likeOrDislikeCommentDto';
+import { NotFoundError } from '../errors/NotFoundError';
 
 export class CommentBusiness {
     constructor(
@@ -205,6 +210,167 @@ export class CommentBusiness {
         const output: DeleteCommentOutputDTO = {
             message: messages.comment_deleted_sucess,
         };
+
+        return output;
+    };
+
+    // LIKE E DISLIKE
+    public likeOrDislikeComment = async (
+        input: LikeOrDislikeCommentInputDTO
+    ): Promise<LikeOrDislikeCommentOutputDTO> => {
+        // Recebendo e desestruturando os dados do input:
+        const { idComment, token, like } = input;
+
+        // Obtendo o payload através do token:
+        const payload = this.tokenManager.getPayload(token);
+
+        // Se o token for inválido vai retornar null
+        if (payload === null) {
+            throw new BadRequestError(messages.invalid_token);
+        }
+
+        // Esse é o id de quem está logado, pois foi obtido através do token:
+        const userId = payload.id;
+
+        // Buscando o comment no banco de dados:
+        const commentDB = await this.commentDatabase.findCommentById(idComment);
+
+        // Se ele não encontrar o comment, vai retornar undefined e vai lançar um erro:
+        if (!commentDB) {
+            throw new NotFoundError(messages.comment_not_found);
+        }
+
+        // Instanciando commentário com o id que o usuário passou no input:
+        const comment = new Comment(
+            commentDB.id,
+            commentDB.creator_id,
+            commentDB.post_id,
+            commentDB.content,
+            commentDB.created_at,
+            commentDB.updated_at,
+            commentDB.likes_count,
+            commentDB.dislikes_count
+        );
+
+        // Se o id do usuário for igual ao id do criador do comment, vai lançar um erro:
+        if (commentDB.creator_id === payload.id) {
+            throw new BadRequestError(messages.like_not_allowed);
+        }
+
+        // Buscando no banco de dados se o usuário já deu like ou dislike no comment:
+        const likeDislikeDB = await this.commentDatabase.findLikeOrDislike(
+            userId,
+            comment.getId()
+        );
+
+        // Se o usuário tiver dado like ou dislike, vai retornar 1 ou 0:
+        // Porque na tabela sql like e dislike são booleanos:
+        const likeSqlite = like ? 1 : 0;
+
+        // Se o usuário não tiver dado like ou dislike, vai criar um novo like ou dislike:
+        if (!likeDislikeDB) {
+            // Inserindo um like ou um dislike no banco de dados na tabela likes_dislikes:
+            await this.commentDatabase.createLikeDislike(
+                userId,
+                comment.getId(),
+                likeSqlite
+            );
+
+            // Se o usuário tiver dado like, vai adicionar um like no comment:
+            if (like) {
+                comment.addLike();
+                await this.commentDatabase.updateLikes(
+                    idComment,
+                    comment.getLikesCount()
+                );
+
+                // Se o usuário tiver dado dislike, vai adicionar um dislike no comment:
+            } else {
+                comment.addDislike();
+
+                // Atualizando o número de likes e dislikes no banco de dados:
+                await this.commentDatabase.updateDislikes(
+                    idComment,
+                    comment.getDislikesCount()
+                );
+            }
+
+            // Se o usuário já tiver dado like ou dislike, vai atualizar o like ou dislike:
+        } else if (likeDislikeDB.like) {
+            if (like) {
+                // Se o usuário já tiver dado like e clicar em like novamente, vai remover o like:
+                await this.commentDatabase.removeLikeDislike(idComment, userId);
+                comment.removeLike();
+
+                // Atualizando o número de likes no banco de dados:
+                await this.commentDatabase.updateLikes(
+                    idComment,
+                    comment.getLikesCount()
+                );
+            } else {
+                // Se o usuário já tiver dado like e clicar em dislike, vai atualizar o like para dislike:
+                await this.commentDatabase.updateLikeDislike(
+                    idComment,
+                    userId,
+                    likeSqlite
+                );
+                comment.removeLike();
+                comment.addDislike();
+
+                // Atualizando o número de likes e dislikes no banco de dados:
+                await this.commentDatabase.updateLikes(
+                    idComment,
+                    comment.getLikesCount()
+                );
+                await this.commentDatabase.updateDislikes(
+                    idComment,
+                    comment.getDislikesCount()
+                );
+            }
+        } else {
+            if (!like) {
+                // Se o usuário já tiver dado dislike e clicar em dislike novamente, vai remover o dislike:
+                await this.commentDatabase.removeLikeDislike(idComment, userId);
+                comment.removeDislike();
+
+                // Atualizando o número de dislikes no banco de dados:
+                await this.commentDatabase.updateDislikes(
+                    idComment,
+                    comment.getDislikesCount()
+                );
+            } else {
+                // Se o usuário já tiver dado dislike e clicar em like, vai atualizar o dislike para like:
+                await this.commentDatabase.updateLikeDislike(
+                    idComment,
+                    userId,
+                    likeSqlite
+                );
+                comment.removeDislike();
+                comment.addLike();
+
+                // Atualizando o número de likes e dislikes no banco de dados:
+                await this.commentDatabase.updateLikes(
+                    idComment,
+                    comment.getLikesCount()
+                );
+                await this.commentDatabase.updateDislikes(
+                    idComment,
+                    comment.getDislikesCount()
+                );
+            }
+        }
+
+        let output;
+
+        if (likeSqlite === 1) {
+            output = {
+                message: messages.like_created_sucess,
+            };
+        } else {
+            output = {
+                message: messages.dislike_created_sucess,
+            };
+        }
 
         return output;
     };
