@@ -34,6 +34,12 @@ export interface GetComment {
     dislikesCount: number;
 }
 
+export interface LikeDislikeDB {
+    user_id: string;
+    comment_id: string;
+    like: number;
+}
+
 export class Comment {
     constructor(
         protected id: string,
@@ -109,6 +115,24 @@ export class Comment {
     public setDislikesCount(dislikesCount: number): void {
         this.dislikesCount = dislikesCount;
     }
+
+    // lógica de like e dislike:
+    public addLike(): void {
+        this.likesCount++;
+    }
+
+    public removeLike(): void {
+        this.likesCount--;
+    }
+
+    public addDislike(): void {
+        this.dislikesCount++;
+    }
+
+    public removeDislike(): void {
+        this.dislikesCount--;
+    }
+    // -------------------------
 
     public toDatabaseModel(): CommentDB {
         return {

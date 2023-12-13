@@ -32,7 +32,6 @@ export interface GetPost {
     likesCount: number;
     dislikesCount: number;
     commentsCount: number;
-    // adicionei:
     comments?: {
         id: string;
         creator: {
@@ -46,7 +45,12 @@ export interface GetPost {
         likesCount: number;
         dislikesCount: number;
     }[];
-    //
+}
+
+export interface LikeDislikeDB {
+    user_id: string;
+    post_id: string;
+    like: number;
 }
 
 export class Post {
@@ -124,6 +128,24 @@ export class Post {
     public setCommentsCount(commentsCount: number): void {
         this.commentsCount = commentsCount;
     }
+
+    // lógica de like e dislike:
+    public addLike(): void {
+        this.likesCount++;
+    }
+
+    public removeLike(): void {
+        this.likesCount--;
+    }
+
+    public addDislike(): void {
+        this.dislikesCount++;
+    }
+
+    public removeDislike(): void {
+        this.dislikesCount--;
+    }
+    // -------------------------
 
     public toDatabaseModel(): PostDB {
         return {
