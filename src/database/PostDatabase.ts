@@ -5,6 +5,11 @@ export class PostDatabase extends BaseDatabase {
     public static TABLE_POSTS = 'posts';
     public static TABLE_LIKES_DISLIKES = 'posts_likes_dislikes';
 
+    // Estão sendo usados: ✅
+    // Não estão sendo usados: ❌
+    // Foi mockado: ✔
+
+    // ✅ | ✔
     public async findPosts(q: string | undefined) {
         let postsDB;
 
@@ -25,6 +30,7 @@ export class PostDatabase extends BaseDatabase {
         return postsDB;
     }
 
+    // ✅ | ✔
     public async findPostById(id: string): Promise<PostDB> {
         const [postDB]: PostDB[] = await BaseDatabase.connection(
             PostDatabase.TABLE_POSTS
@@ -33,6 +39,7 @@ export class PostDatabase extends BaseDatabase {
         return postDB;
     }
 
+    // ❌ não usado em PostBusiness
     public async findPostByUserId(id: string): Promise<PostDB[]> {
         const postsDB: PostDB[] = await BaseDatabase.connection(
             PostDatabase.TABLE_POSTS
@@ -41,10 +48,12 @@ export class PostDatabase extends BaseDatabase {
         return postsDB;
     }
 
+    // ✅ | ✔
     public async createPost(post: PostDB): Promise<void> {
         await BaseDatabase.connection(PostDatabase.TABLE_POSTS).insert(post);
     }
 
+    // ✅ | ✔
     public async updatePost(
         id: string,
         content: string,
@@ -55,6 +64,7 @@ export class PostDatabase extends BaseDatabase {
             .update({ content, updated_at });
     }
 
+    // ✅ | ✔
     public async deletePost(id: string): Promise<void> {
         await BaseDatabase.connection(PostDatabase.TABLE_POSTS)
             .del()
@@ -67,6 +77,7 @@ export class PostDatabase extends BaseDatabase {
             .del();
     }
 
+    // ✅ | ✔
     public findLikeOrDislike = async (
         userId: string,
         postId: string
@@ -83,6 +94,7 @@ export class PostDatabase extends BaseDatabase {
         return result;
     };
 
+    // ✅ | ✔
     public createLikeDislike = async (
         userId: string,
         postId: string,
@@ -97,6 +109,7 @@ export class PostDatabase extends BaseDatabase {
         );
     };
 
+    // ✅ | ✔
     public updateLikes = async (
         postId: string,
         likes: number
@@ -106,6 +119,7 @@ export class PostDatabase extends BaseDatabase {
             .where({ id: postId });
     };
 
+    // ✅ | ✔
     public updateDislikes = async (
         postId: string,
         dislikes: number
@@ -115,6 +129,7 @@ export class PostDatabase extends BaseDatabase {
             .where({ id: postId });
     };
 
+    // ✅ | ✔
     public removeLikeDislike = async (
         postId: string,
         userId: string
@@ -127,6 +142,7 @@ export class PostDatabase extends BaseDatabase {
             });
     };
 
+    // ✅ | ✔
     public updateLikeDislike = async (
         postId: string,
         userId: string,

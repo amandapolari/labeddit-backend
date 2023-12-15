@@ -5,6 +5,11 @@ export class CommentDatabase extends BaseDatabase {
     public static TABLE_COMMENTS = 'comments';
     public static TABLE_LIKES_DISLIKES = 'comments_likes_dislikes';
 
+    // Estão sendo usados: ✅
+    // Não estão sendo usados: ❌
+    // Foi mockado: ✔
+
+    // ✅ | ✔
     public async findComments(q: string | undefined) {
         let commentsDB;
 
@@ -25,6 +30,7 @@ export class CommentDatabase extends BaseDatabase {
         return commentsDB;
     }
 
+    // ✅ | ✔
     public async findCommentById(id: string): Promise<CommentDB> {
         const [commentDB]: CommentDB[] = await BaseDatabase.connection(
             CommentDatabase.TABLE_COMMENTS
@@ -33,6 +39,7 @@ export class CommentDatabase extends BaseDatabase {
         return commentDB;
     }
 
+    // ❌ não usado em CommentBusiness
     public async findCommentByUserId(id: string): Promise<CommentDB[]> {
         const commentsDB: CommentDB[] = await BaseDatabase.connection(
             CommentDatabase.TABLE_COMMENTS
@@ -41,6 +48,7 @@ export class CommentDatabase extends BaseDatabase {
         return commentsDB;
     }
 
+    // ❌ não usado em CommentBusiness
     public async findCommentByPostId(id: string): Promise<CommentDB[]> {
         const commentsDB: CommentDB[] = await BaseDatabase.connection(
             CommentDatabase.TABLE_COMMENTS
@@ -49,12 +57,14 @@ export class CommentDatabase extends BaseDatabase {
         return commentsDB;
     }
 
+    // ✅ | ✔
     public async createComment(comment: CommentDB): Promise<void> {
         await BaseDatabase.connection(CommentDatabase.TABLE_COMMENTS).insert(
             comment
         );
     }
 
+    // ✅ | ✔
     public async updateComment(
         id: string,
         content: string,
@@ -65,24 +75,28 @@ export class CommentDatabase extends BaseDatabase {
             .update({ content, updated_at });
     }
 
+    // ✅ | ✔
     public async deleteComment(id: string): Promise<void> {
         await BaseDatabase.connection(CommentDatabase.TABLE_COMMENTS)
             .del()
             .where({ id });
     }
 
+    // ❌ não usado em CommentBusiness
     public async deleteCommentByPostId(id: string): Promise<void> {
         await BaseDatabase.connection(CommentDatabase.TABLE_COMMENTS)
             .del()
             .where({ post_id: id });
     }
 
+    // ❌ não usado em CommentBusiness
     public async deleteCommentByUserId(id: string): Promise<void> {
         await BaseDatabase.connection(CommentDatabase.TABLE_COMMENTS)
             .del()
             .where({ user_id: id });
     }
 
+    // ❌ não usado em CommentBusiness
     public async deleteCommentByPostIdAndUserId(
         post_id: string,
         user_id: string
@@ -92,6 +106,7 @@ export class CommentDatabase extends BaseDatabase {
             .where({ post_id, user_id });
     }
 
+    // ✅ | ✔
     // LIKE OR DISLIKE COMMENT
     public findLikeOrDislike = async (
         userId: string,
@@ -109,6 +124,7 @@ export class CommentDatabase extends BaseDatabase {
         return result;
     };
 
+    // ✅ | ✔
     public createLikeDislike = async (
         userId: string,
         commentId: string,
@@ -123,6 +139,7 @@ export class CommentDatabase extends BaseDatabase {
         });
     };
 
+    // ✅ | ✔
     public updateLikes = async (
         commentId: string,
         likes: number
@@ -132,6 +149,7 @@ export class CommentDatabase extends BaseDatabase {
             .where({ id: commentId });
     };
 
+    // ✅ | ✔
     public updateDislikes = async (
         commentId: string,
         dislikes: number
@@ -141,6 +159,7 @@ export class CommentDatabase extends BaseDatabase {
             .where({ id: commentId });
     };
 
+    // ✅ | ✔
     public removeLikeDislike = async (
         commentId: string,
         userId: string
@@ -153,6 +172,7 @@ export class CommentDatabase extends BaseDatabase {
             });
     };
 
+    // ✅ | ✔
     public updateLikeDislike = async (
         commentId: string,
         userId: string,
