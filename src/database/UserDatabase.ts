@@ -9,7 +9,7 @@ export class UserDatabase extends BaseDatabase {
     // Foi mockado: ✔
 
     // ✅ | ✔
-    public async findUsers(q: string | undefined) {
+    public async findUsers(q: string | undefined): Promise<UserDB[]> {
         let usersDB;
 
         if (q) {
@@ -30,16 +30,16 @@ export class UserDatabase extends BaseDatabase {
     }
 
     // ❌ não usado em UserBusiness
-    public async findAllUsers() {
-        const usersDB: UserDB[] = await BaseDatabase.connection(
-            UserDatabase.TABLE_USERS
-        );
+    // public async findAllUsers() {
+    //     const usersDB: UserDB[] = await BaseDatabase.connection(
+    //         UserDatabase.TABLE_USERS
+    //     );
 
-        return usersDB;
-    }
+    //     return usersDB;
+    // }
 
     // ✅ | ✔
-    public async findUserById(id: string): Promise<UserDB> {
+    public async findUserById(id: string): Promise<UserDB | undefined> {
         const [userDB]: UserDB[] = await BaseDatabase.connection(
             UserDatabase.TABLE_USERS
         ).where({ id });
@@ -48,7 +48,7 @@ export class UserDatabase extends BaseDatabase {
     }
 
     // ✅ | ✔
-    public async findUserByEmail(email: string) {
+    public async findUserByEmail(email: string): Promise<UserDB | undefined> {
         const [userDB] = await BaseDatabase.connection(
             UserDatabase.TABLE_USERS
         ).where({ email });
@@ -57,14 +57,21 @@ export class UserDatabase extends BaseDatabase {
     }
 
     // ✅ | ✔
-    public async findUserByNickname(nickname: string): Promise<string> {
-        const [nicknameDB]: string[] = await BaseDatabase.connection(
+    public async findUserByNickname(
+        nickname: string
+    ): Promise<string[] | undefined> {
+        const result: { nickname: string }[] = await BaseDatabase.connection(
             UserDatabase.TABLE_USERS
         )
             .select('nickname')
             .where({ nickname });
 
-        return nicknameDB;
+        if (result.length > 0) {
+            const nicknames: string[] = result.map((user) => user.nickname);
+            return nicknames;
+        } else {
+            return undefined;
+        }
     }
 
     // ✅ | ✔

@@ -40,22 +40,22 @@ export class CommentDatabase extends BaseDatabase {
     }
 
     // ❌ não usado em CommentBusiness
-    public async findCommentByUserId(id: string): Promise<CommentDB[]> {
-        const commentsDB: CommentDB[] = await BaseDatabase.connection(
-            CommentDatabase.TABLE_COMMENTS
-        ).where({ user_id: id });
+    // public async findCommentByUserId(id: string): Promise<CommentDB[]> {
+    //     const commentsDB: CommentDB[] = await BaseDatabase.connection(
+    //         CommentDatabase.TABLE_COMMENTS
+    //     ).where({ user_id: id });
 
-        return commentsDB;
-    }
+    //     return commentsDB;
+    // }
 
     // ❌ não usado em CommentBusiness
-    public async findCommentByPostId(id: string): Promise<CommentDB[]> {
-        const commentsDB: CommentDB[] = await BaseDatabase.connection(
-            CommentDatabase.TABLE_COMMENTS
-        ).where({ post_id: id });
+    // public async findCommentByPostId(id: string): Promise<CommentDB[]> {
+    //     const commentsDB: CommentDB[] = await BaseDatabase.connection(
+    //         CommentDatabase.TABLE_COMMENTS
+    //     ).where({ post_id: id });
 
-        return commentsDB;
-    }
+    //     return commentsDB;
+    // }
 
     // ✅ | ✔
     public async createComment(comment: CommentDB): Promise<void> {
@@ -90,21 +90,21 @@ export class CommentDatabase extends BaseDatabase {
     }
 
     // ❌ não usado em CommentBusiness
-    public async deleteCommentByUserId(id: string): Promise<void> {
-        await BaseDatabase.connection(CommentDatabase.TABLE_COMMENTS)
-            .del()
-            .where({ user_id: id });
-    }
+    // public async deleteCommentByUserId(id: string): Promise<void> {
+    //     await BaseDatabase.connection(CommentDatabase.TABLE_COMMENTS)
+    //         .del()
+    //         .where({ user_id: id });
+    // }
 
     // ❌ não usado em CommentBusiness
-    public async deleteCommentByPostIdAndUserId(
-        post_id: string,
-        user_id: string
-    ): Promise<void> {
-        await BaseDatabase.connection(CommentDatabase.TABLE_COMMENTS)
-            .del()
-            .where({ post_id, user_id });
-    }
+    // public async deleteCommentByPostIdAndUserId(
+    //     post_id: string,
+    //     user_id: string
+    // ): Promise<void> {
+    //     await BaseDatabase.connection(CommentDatabase.TABLE_COMMENTS)
+    //         .del()
+    //         .where({ post_id, user_id });
+    // }
 
     // ✅ | ✔
     // LIKE OR DISLIKE COMMENT

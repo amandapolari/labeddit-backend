@@ -40,13 +40,13 @@ export class PostDatabase extends BaseDatabase {
     }
 
     // ❌ não usado em PostBusiness
-    public async findPostByUserId(id: string): Promise<PostDB[]> {
-        const postsDB: PostDB[] = await BaseDatabase.connection(
-            PostDatabase.TABLE_POSTS
-        ).where({ user_id: id });
+    // public async findPostByUserId(id: string): Promise<PostDB[]> {
+    //     const postsDB: PostDB[] = await BaseDatabase.connection(
+    //         PostDatabase.TABLE_POSTS
+    //     ).where({ user_id: id });
 
-        return postsDB;
-    }
+    //     return postsDB;
+    // }
 
     // ✅ | ✔
     public async createPost(post: PostDB): Promise<void> {

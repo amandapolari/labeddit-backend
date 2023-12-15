@@ -22,5 +22,16 @@
     "like_not_allowed": "Oops! Parece que você não tem permissão para curtir esse post. Por favor, faça login com uma conta autorizada.",
     "incorrect_credentials": "Oops! Parece que o e-mail ou a senha estão incorretos. Por favor, verifique suas credenciais e tente novamente.",
     "unexpected_error": "Erro Inesperado. Por favor, tente novamente mais tarde ou entre em contato com o suporte se o problema persistir.",
-    "comment_not_found": "Comentário não encontrado"
+    "comment_not_found": "Comentário não encontrado",
+    "nickname_required": "O campo 'nickname' não pode estar vazio",
+    "nickname_type_error": "O campo 'nickname' deve ser do tipo string",
+    "nickname_min_length_invalid": "O campo 'nickname' deve possuir pelo menos 2 caracteres",
+    "nickname_max_length_invalid": "O campo 'nickname' deve possuir no máximo 20 caracteres",
+    "email_required": "O campo 'email' não pode estar vazio",
+    "email_type_error": "O campo 'email' deve ser do tipo string",
+    "email_invalid": "O campo 'email' deve ser um e-mail válido",
+    "password_required": "O campo 'password' não pode estar vazio",
+    "password_type_error": "O campo 'password' deve ser do tipo string",
+    "password_min_length_invalid": "O campo 'password' deve possuir pelo menos 4 caracteres",
+    "password_max_length_invalid": "O campo 'password' deve possuir no máximo 20 caracteres"
 }

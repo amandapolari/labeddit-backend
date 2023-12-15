@@ -48,13 +48,14 @@ export class UserDatabaseMock extends BaseDatabase {
 
     public async findUserByNickname(
         nickname: string
-    ): Promise<UserDB | undefined> {
-        return usersMock.filter((user) => user.nickname === nickname)[0];
+    ): Promise<string[] | undefined> {
+        const user = usersMock.find((user) => user.nickname === nickname);
+        return user ? [user.nickname] : undefined;
     }
 
     public async insertUser(newUserDB: UserDB): Promise<void> {}
 
-    public async updateUserById(id: string, content: string): Promise<void> {}
+    public async updateUserById(id: string, content: UserDB): Promise<void> {}
 
     public async deleteUserById(id: string): Promise<void> {}
 }

@@ -8,7 +8,8 @@
     "build": "tsc",
     "dev": "ts-node-dev ./src/index.ts",
     "test": "jest",
-    "test:watch": "jest --watch",
+    "test:verbose": "jest --verbose",
+    "test:watch": "jest --watch --verbose",
     "test:coverage": "jest --coverage"
   },
   "repository": {
