@@ -21,6 +21,6 @@ export const GetUsersSchema = z
                 required_error: messages.token_required,
                 invalid_type_error: messages.token_type_error,
             })
-            .min(1),
+            .min(1, messages.token_min_length_invalid),
     })
     .transform((data) => data as GetUsersInputDTO);

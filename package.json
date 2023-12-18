@@ -10,7 +10,10 @@
     "test": "jest",
     "test:verbose": "jest --verbose",
     "test:watch": "jest --watch --verbose",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "test:login": "jest login.test.ts --watch --verbose",
+    "test:signup": "jest signup.test.ts --watch --verbose",
+    "test:getUsers": "jest getUsers.test.ts --watch --verbose"
   },
   "repository": {
     "type": "git",

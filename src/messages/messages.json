@@ -37,6 +37,7 @@
     "query_type_error": "O campo 'query' deve ser do tipo string",
     "token_required": "O campo 'token' não pode estar vazio",
     "token_type_error": "O campo 'token' deve ser do tipo string",
+    "token_min_length_invalid": "O campo 'token' deve possuir pelo menos 1 caracter  ",
     "idToEdit_required": "O campo 'idToEdit' não pode estar vazio",
     "idToEdit_type_error": "O campo 'idToEdit' deve ser do tipo string",
     "idToDelete_required": "O campo 'idToDelete' não pode estar vazio",
