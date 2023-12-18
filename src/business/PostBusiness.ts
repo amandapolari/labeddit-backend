@@ -247,6 +247,14 @@ export class PostBusiness {
         // Recebendo e desestruturando os dados do input:
         const { idPost, token, like } = input;
 
+        // Buscando o post no banco de dados:
+        const postDB = await this.postDatabase.findPostById(idPost);
+
+        // Se ele não encontrar o post, vai retornar undefined e vai lançar um erro:
+        if (!postDB) {
+            throw new NotFoundError(messages.id_post_not_found);
+        }
+
         // Obtendo o payload através do token:
         const payload = this.tokenManager.getPayload(token);
 
@@ -257,14 +265,6 @@ export class PostBusiness {
 
         // Esse é o id de quem está logado, pois foi obtido através do token:
         const userId = payload.id;
-
-        // Buscando o post no banco de dados:
-        const postDB = await this.postDatabase.findPostById(idPost);
-
-        // Se ele não encontrar o post, vai retornar undefined e vai lançar um erro:
-        if (!postDB) {
-            throw new NotFoundError(messages.id_post_not_found);
-        }
 
         // Instanciando que o usuário foneceu o id:
         const post = new Post(
