@@ -22,7 +22,10 @@
     "test:deletePost": "jest deletePost.test.ts --watch --verbose",
     "test:likeOrDislikePost": "jest likeOrDislikePost.test.ts --watch --verbose",
     "test:createComment": "jest createComment.test.ts --watch --verbose",
-    "test:getComments": "jest getComments.test.ts --watch --verbose"
+    "test:getComments": "jest getComments.test.ts --watch --verbose",
+    "test:updateComment": "jest updateComment.test.ts --watch --verbose",
+    "test:deleteComment": "jest deleteComment.test.ts --watch --verbose",
+    "test:likeOrDislikeComment": "jest likeOrDislikeComment.test.ts --watch --verbose"
   },
   "repository": {
     "type": "git",
