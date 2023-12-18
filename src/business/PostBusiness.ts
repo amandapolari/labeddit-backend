@@ -167,16 +167,16 @@ export class PostBusiness {
     ): Promise<UpdatePostOutputDTO> => {
         const { idToEdit, token, content } = input;
 
-        const payload = this.tokenManager.getPayload(token);
-
-        if (payload === null) {
-            throw new BadRequestError(messages.invalid_token);
-        }
-
         const post = await this.postDatabase.findPostById(idToEdit);
 
         if (!post) {
             throw new BadRequestError(messages.id_post_not_found);
+        }
+
+        const payload = this.tokenManager.getPayload(token);
+
+        if (payload === null) {
+            throw new BadRequestError(messages.invalid_token);
         }
 
         if (post.creator_id !== payload.id) {
