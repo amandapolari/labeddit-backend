@@ -201,6 +201,10 @@ export class CommentBusiness {
 
         const commentDB = await this.commentDatabase.findCommentById(idComment);
 
+        if (!commentDB) {
+            throw new BadRequestError(messages.comment_not_found);
+        }
+
         if (commentDB.creator_id !== payload.id) {
             throw new BadRequestError(messages.not_authorized);
         }

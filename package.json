@@ -15,7 +15,11 @@
     "test:signup": "jest signup.test.ts --watch --verbose",
     "test:getUsers": "jest getUsers.test.ts --watch --verbose",
     "test:updateUser": "jest updateUser.test.ts --watch --verbose",
-    "test:deleteUser": "jest deleteUser.test.ts --watch --verbose"
+    "test:deleteUser": "jest deleteUser.test.ts --watch --verbose",
+    "test:getPosts": "jest getPosts.test.ts --watch --verbose",
+    "test:updatePost": "jest updatePost.test.ts --watch --verbose",
+    "test:deletePost": "jest deletePost.test.ts --watch --verbose",
+    "test:likeOrDislikePost": "jest likeOrDislikePost.test.ts --watch --verbose"
   },
   "repository": {
     "type": "git",

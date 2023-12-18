@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { PostDB } from '../../../src/models/Post';
+import { LikeDislikeDB, PostDB } from '../../../src/models/Post';
 import { BaseDatabase } from '../../../src/database/BaseDatabase';
 
 const postsMock: PostDB[] = [
@@ -35,7 +35,6 @@ const postsMock: PostDB[] = [
     },
 ];
 
-// Conferir nome dos parâmetros
 
 export class PostDatabaseMock extends BaseDatabase {
     public static TABLE_POSTS = 'posts';
@@ -64,10 +63,12 @@ export class PostDatabaseMock extends BaseDatabase {
 
     public async deletePost(id: string): Promise<void> {}
 
+    public async deletePostById(id: string): Promise<void> {}
+
     public async findLikeOrDislike(
         userId: string,
         postId: string
-    ): Promise<void> {}
+    ): Promise<LikeDislikeDB | undefined | void> {}
 
     public async createLikeDislike(
         userId: string,

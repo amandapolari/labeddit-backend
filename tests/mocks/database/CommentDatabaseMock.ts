@@ -1,6 +1,7 @@
 import { format } from 'date-fns';
 import { CommentDB } from '../../../src/models/Comment';
 import { BaseDatabase } from '../../../src/database/BaseDatabase';
+import { LikeDislikeDB } from '../../../src/models/Post';
 
 const commentsMock: CommentDB[] = [
     {
@@ -54,17 +55,26 @@ export class CommentDatabaseMock extends BaseDatabase {
         return commentsMock.filter((comment) => comment.id === id)[0];
     }
 
-    public async createComment(comment: CommentDB): Promise<void> {}
+    public async createComment(comment: CommentDB): Promise<void> {
+        return;
+    }
 
     public async updateComment(
         id: string,
         content: string,
         updated_at: string
-    ): Promise<void> {}
+    ): Promise<void> {
+        return;
+    }
 
-    public async deleteComment(id: string): Promise<void> {}
+    public async deleteComment(id: string): Promise<void> {
+        return;
+    }
 
-    public async findLikeOrDislike(userId: string, commentId: string) {
+    public async findLikeOrDislike(
+        userId: string,
+        commentId: string
+    ): Promise<any> {
         return;
     }
 
@@ -72,19 +82,25 @@ export class CommentDatabaseMock extends BaseDatabase {
         userId: string,
         commentId: string,
         like: number
-    ) {
+    ): Promise<void> {
         return;
     }
 
-    public async updateLikes(commentId: string, likes: number) {
+    public async updateLikes(commentId: string, likes: number): Promise<void> {
         return;
     }
 
-    public async removeLikeDislike(userId: string, commentId: string) {
+    public async updateDislikes(
+        commentId: string,
+        dislikes: number
+    ): Promise<void> {
         return;
     }
 
-    public async updateDislikes(commentId: string, dislikes: number) {
+    public async removeLikeDislike(
+        userId: string,
+        commentId: string
+    ): Promise<void> {
         return;
     }
 
@@ -92,7 +108,7 @@ export class CommentDatabaseMock extends BaseDatabase {
         commentId: string,
         userId: string,
         like: number
-    ) {
+    ): Promise<void> {
         return;
     }
 }

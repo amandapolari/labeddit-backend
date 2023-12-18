@@ -10,7 +10,7 @@ export class PostDatabase extends BaseDatabase {
     // Foi mockado: ✔
 
     // ✅ | ✔
-    public async findPosts(q: string | undefined) {
+    public async findPosts(q: string | undefined): Promise<PostDB[]> {
         let postsDB;
 
         if (q) {
@@ -31,7 +31,7 @@ export class PostDatabase extends BaseDatabase {
     }
 
     // ✅ | ✔
-    public async findPostById(id: string): Promise<PostDB> {
+    public async findPostById(id: string): Promise<PostDB | undefined> {
         const [postDB]: PostDB[] = await BaseDatabase.connection(
             PostDatabase.TABLE_POSTS
         ).where({ id });
@@ -78,10 +78,10 @@ export class PostDatabase extends BaseDatabase {
     }
 
     // ✅ | ✔
-    public findLikeOrDislike = async (
+    public async findLikeOrDislike(
         userId: string,
         postId: string
-    ): Promise<LikeDislikeDB | undefined> => {
+    ): Promise<LikeDislikeDB | undefined | void> {
         const [result]: LikeDislikeDB[] = await BaseDatabase.connection(
             PostDatabase.TABLE_LIKES_DISLIKES
         )
@@ -92,7 +92,7 @@ export class PostDatabase extends BaseDatabase {
             });
 
         return result;
-    };
+    }
 
     // ✅ | ✔
     public createLikeDislike = async (
