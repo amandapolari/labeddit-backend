@@ -131,7 +131,7 @@ export class CommentBusiness {
         );
 
         const output = {
-            message: messages.comment_updated_sucess,
+            message: messages.comment_created_sucess,
             content,
         };
 
