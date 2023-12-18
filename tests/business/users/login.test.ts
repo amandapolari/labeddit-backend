@@ -1,12 +1,12 @@
-import { UserBusiness } from '../../src/business/UserBusiness';
-import { UserDatabaseMock } from '../mocks/database/UserDatabaseMock';
-import { IdGeneratorMock } from '../mocks/services/IdGeneratorMock';
-import { TokenManagerMock } from '../mocks/services/TokenManagerMock';
-import { HashManagerMock } from '../mocks/services/HashManagerMock';
-import { LoginOutputDTO, LoginSchema } from '../../src/dtos/users/loginDto';
-import messages from '../../src/messages/messages.json';
-import { NotFoundError } from '../../src/errors/NotFoundError';
-import { BadRequestError } from '../../src/errors/BadRequestError';
+import { UserBusiness } from '../../../src/business/UserBusiness';
+import { UserDatabaseMock } from '../../mocks/database/UserDatabaseMock';
+import { IdGeneratorMock } from '../../mocks/services/IdGeneratorMock';
+import { TokenManagerMock } from '../../mocks/services/TokenManagerMock';
+import { HashManagerMock } from '../../mocks/services/HashManagerMock';
+import { LoginOutputDTO, LoginSchema } from '../../../src/dtos/users/loginDto';
+import messages from '../../../src/messages/messages.json';
+import { NotFoundError } from '../../../src/errors/NotFoundError';
+import { BadRequestError } from '../../../src/errors/BadRequestError';
 import { ZodError } from 'zod';
 
 describe('testing login business', () => {

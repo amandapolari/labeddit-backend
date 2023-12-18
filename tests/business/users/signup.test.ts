@@ -1,12 +1,12 @@
-import { UserBusiness } from '../../src/business/UserBusiness';
-import { SignupOutputDTO, SignupSchema } from '../../src/dtos/users/signupDto';
-import { UserDatabaseMock } from '../mocks/database/UserDatabaseMock';
-import { HashManagerMock } from '../mocks/services/HashManagerMock';
-import { IdGeneratorMock } from '../mocks/services/IdGeneratorMock';
-import { TokenManagerMock } from '../mocks/services/TokenManagerMock';
-import messages from '../../src/messages/messages.json';
+import { UserBusiness } from '../../../src/business/UserBusiness';
+import { SignupOutputDTO, SignupSchema } from '../../../src/dtos/users/signupDto';
+import { UserDatabaseMock } from '../../mocks/database/UserDatabaseMock';
+import { HashManagerMock } from '../../mocks/services/HashManagerMock';
+import { IdGeneratorMock } from '../../mocks/services/IdGeneratorMock';
+import { TokenManagerMock } from '../../mocks/services/TokenManagerMock';
+import messages from '../../../src/messages/messages.json';
 import { ZodError } from 'zod';
-import { BadRequestError } from '../../src/errors/BadRequestError';
+import { BadRequestError } from '../../../src/errors/BadRequestError';
 
 describe('testing signup business', () => {
     const userBusiness = new UserBusiness(
