@@ -40,7 +40,7 @@ export class CommentController {
         try {
             const input = CreateCommentSchema.parse({
                 token: req.headers.authorization as string,
-                postId: req.params.id,
+                idPost: req.params.id,
                 content: req.body.content as string,
             });
 
@@ -64,7 +64,7 @@ export class CommentController {
         try {
             const input = UpdateCommentSchema.parse({
                 token: req.headers.authorization as string,
-                commentId: req.params.id as string,
+                idComment: req.params.id as string,
                 content: req.body.content as string,
             });
 
@@ -88,7 +88,7 @@ export class CommentController {
         try {
             const input = DeleteCommentSchema.parse({
                 token: req.headers.authorization as string,
-                commentId: req.params.id as string,
+                idComment: req.params.id as string,
             });
 
             await this.commentBusiness.deleteComment(input);

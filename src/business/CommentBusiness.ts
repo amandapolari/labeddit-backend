@@ -97,7 +97,7 @@ export class CommentBusiness {
     public createComment = async (
         input: CreateCommentInputDTO
     ): Promise<CreateCommentOutputDTO> => {
-        const { token, postId, content } = input;
+        const { token, idPost, content } = input;
 
         console.log(input);
 
@@ -112,7 +112,7 @@ export class CommentBusiness {
         const comment = new Comment(
             id,
             payload.id,
-            postId,
+            idPost,
             content,
             format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
             format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
@@ -142,7 +142,7 @@ export class CommentBusiness {
     public updateComment = async (
         input: UpdateCommentInputDTO
     ): Promise<UpdateCommentOutputDTO> => {
-        const { token, commentId, content } = input;
+        const { token, idComment, content } = input;
 
         const payload = this.tokenManager.getPayload(token);
 
@@ -150,7 +150,7 @@ export class CommentBusiness {
             throw new BadRequestError(messages.invalid_token);
         }
 
-        const commentDB = await this.commentDatabase.findCommentById(commentId);
+        const commentDB = await this.commentDatabase.findCommentById(idComment);
 
         if (!commentDB) {
             throw new BadRequestError(messages.comment_not_found);
@@ -191,7 +191,7 @@ export class CommentBusiness {
     public deleteComment = async (
         input: DeleteCommentInputDTO
     ): Promise<DeleteCommentOutputDTO> => {
-        const { token, commentId } = input;
+        const { token, idComment } = input;
 
         const payload = this.tokenManager.getPayload(token);
 
@@ -199,13 +199,13 @@ export class CommentBusiness {
             throw new BadRequestError(messages.invalid_token);
         }
 
-        const commentDB = await this.commentDatabase.findCommentById(commentId);
+        const commentDB = await this.commentDatabase.findCommentById(idComment);
 
         if (commentDB.creator_id !== payload.id) {
             throw new BadRequestError(messages.not_authorized);
         }
 
-        await this.commentDatabase.deleteComment(commentId);
+        await this.commentDatabase.deleteComment(idComment);
 
         const output: DeleteCommentOutputDTO = {
             message: messages.comment_deleted_sucess,

@@ -30,13 +30,14 @@ export class UserDatabase extends BaseDatabase {
     }
 
     // ❌ não usado em UserBusiness
-    // public async findAllUsers() {
-    //     const usersDB: UserDB[] = await BaseDatabase.connection(
-    //         UserDatabase.TABLE_USERS
-    //     );
+    // ✅ | ✔ USADO EM CommentBusiness
+    public async findAllUsers() {
+        const usersDB: UserDB[] = await BaseDatabase.connection(
+            UserDatabase.TABLE_USERS
+        );
 
-    //     return usersDB;
-    // }
+        return usersDB;
+    }
 
     // ✅ | ✔
     public async findUserById(id: string): Promise<UserDB | undefined> {

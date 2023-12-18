@@ -47,5 +47,7 @@
     "idPost_required": "O campo 'idPost' não pode estar vazio",
     "idPost_type_error": "O campo 'idPost' deve ser do tipo string",
     "like_required": "O campo 'like' não pode estar vazio",
-    "like_type_error": "O campo 'like' deve ser do tipo boolean"
+    "like_type_error": "O campo 'like' deve ser do tipo boolean",
+    "idComment_required": "O campo 'idComment' não pode estar vazio",
+    "idComment_type_error": "O campo 'idComment' deve ser do tipo string"
 }

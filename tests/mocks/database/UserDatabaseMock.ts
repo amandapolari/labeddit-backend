@@ -38,6 +38,10 @@ export class UserDatabaseMock extends BaseDatabase {
         }
     }
 
+    public async findAllUsers(): Promise<UserDB[]> {
+        return usersMock;
+    }
+
     public async findUserById(id: string): Promise<UserDB | undefined> {
         return usersMock.filter((user) => user.id === id)[0];
     }
