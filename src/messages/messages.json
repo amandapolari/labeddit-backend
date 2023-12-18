@@ -40,5 +40,12 @@
     "idToEdit_required": "O campo 'idToEdit' não pode estar vazio",
     "idToEdit_type_error": "O campo 'idToEdit' deve ser do tipo string",
     "idToDelete_required": "O campo 'idToDelete' não pode estar vazio",
-    "idToDelete_type_error": "O campo 'idToDelete' deve ser do tipo string"
+    "idToDelete_type_error": "O campo 'idToDelete' deve ser do tipo string",
+    "content_required": "O campo 'content' não pode estar vazio",
+    "content_type_error": "O campo 'content' deve ser do tipo string",
+    "content_min_length_invalid": "O campo 'content' deve possuir pelo menos 1 caracter",
+    "idPost_required": "O campo 'idPost' não pode estar vazio",
+    "idPost_type_error": "O campo 'idPost' deve ser do tipo string",
+    "like_required": "O campo 'like' não pode estar vazio",
+    "like_type_error": "O campo 'like' deve ser do tipo boolean"
 }

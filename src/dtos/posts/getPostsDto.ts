@@ -1,5 +1,6 @@
 import z from 'zod';
-import { GetPost, PostModel } from '../../models/Post';
+import { GetPost } from '../../models/Post';
+import messages from '../../messages/messages.json';
 
 export interface GetPostsInputDTO {
     q: string | undefined;
@@ -12,14 +13,12 @@ export const GetPostsSchema = z
     .object({
         q: z
             .string({
-                invalid_type_error: "'q' deve ser do tipo string",
+                invalid_type_error: messages.query_type_error,
             })
             .optional(),
-        token: z
-            .string({
-                required_error: "'token' é obrigatório",
-                invalid_type_error: "'token' deve ser do tipo string",
-            })
-            .min(1),
+        token: z.string({
+            required_error: messages.token_required,
+            invalid_type_error: messages.token_type_error,
+        }),
     })
     .transform((data) => data as GetPostsInputDTO);

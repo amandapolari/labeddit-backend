@@ -1,4 +1,5 @@
 import z from 'zod';
+import messages from '../../messages/messages.json';
 
 export interface LikeOrDislikePostInputDTO {
     idPost: string;
@@ -12,18 +13,17 @@ export type LikeOrDislikePostOutputDTO = {
 
 export const LikeOrDislikePostSchema = z
     .object({
-        idPost: z
-            .string({
-                required_error: "'idPost' é obrigatória",
-                invalid_type_error: "'idPost' deve ser do tipo string",
-            })
-            .min(1, "'idPost' deve possuir no mínimo 1 caractere"),
-        token: z
-            .string({
-                required_error: "'token' é obrigatória",
-                invalid_type_error: "'token' deve ser do tipo string",
-            })
-            .min(1, "'token' deve possuir no mínimo 1 caractere"),
-        like: z.boolean(),
+        idPost: z.string({
+            required_error: messages.idPost_required,
+            invalid_type_error: messages.idPost_type_error,
+        }),
+        token: z.string({
+            required_error: messages.token_required,
+            invalid_type_error: messages.token_type_error,
+        }),
+        like: z.boolean({
+            required_error: messages.like_required,
+            invalid_type_error: messages.like_type_error,
+        }),
     })
     .transform((data) => data as LikeOrDislikePostInputDTO);
