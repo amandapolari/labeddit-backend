@@ -193,16 +193,16 @@ export class CommentBusiness {
     ): Promise<DeleteCommentOutputDTO> => {
         const { token, idComment } = input;
 
-        const payload = this.tokenManager.getPayload(token);
-
-        if (payload === null) {
-            throw new BadRequestError(messages.invalid_token);
-        }
-
         const commentDB = await this.commentDatabase.findCommentById(idComment);
 
         if (!commentDB) {
             throw new BadRequestError(messages.comment_not_found);
+        }
+
+        const payload = this.tokenManager.getPayload(token);
+
+        if (payload === null) {
+            throw new BadRequestError(messages.invalid_token);
         }
 
         if (commentDB.creator_id !== payload.id) {
