@@ -1,4 +1,5 @@
 import z from 'zod';
+import messages from '../../messages/messages.json';
 
 export interface DeletePostInputDTO {
     idToDelete: string;
@@ -13,14 +14,14 @@ export const DeletePostSchema = z
     .object({
         idToDelete: z
             .string({
-                required_error: "'idToDelete' é obrigatório",
-                invalid_type_error: "'idToDelete' deve ser do tipo string",
+                required_error: messages.idToDelete_required,
+                invalid_type_error: messages.idToDelete_type_error,
             })
             .min(1),
         token: z
             .string({
-                required_error: "'token' é obrigatório",
-                invalid_type_error: "'token' deve ser do tipo string",
+                required_error: messages.token_required,
+                invalid_type_error: messages.token_type_error,
             })
             .min(1),
     })

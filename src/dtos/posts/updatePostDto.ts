@@ -1,4 +1,5 @@
 import z from 'zod';
+import messages from '../../messages/messages.json';
 
 export interface UpdatePostInputDTO {
     idToEdit: string;
@@ -15,20 +16,20 @@ export const UpdatePostSchema = z
     .object({
         idToEdit: z
             .string({
-                required_error: "'idToEdit' é obrigatório",
-                invalid_type_error: "'idToEdit' deve ser do tipo string",
+                required_error: messages.idToEdit_required,
+                invalid_type_error: messages.idToEdit_type_error,
             })
             .min(1),
         token: z
             .string({
-                required_error: "'token' é obrigatório",
-                invalid_type_error: "'token' deve ser do tipo string",
+                required_error: messages.token_required,
+                invalid_type_error: messages.token_type_error,
             })
             .min(1),
         content: z
             .string({
-                required_error: "'content' é obrigatório",
-                invalid_type_error: "'content' deve ser do tipo string",
+                required_error: messages.content_required,
+                invalid_type_error: messages.content_type_error,
             })
             .min(1),
     })

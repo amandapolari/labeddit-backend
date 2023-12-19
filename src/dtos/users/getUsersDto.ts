@@ -1,5 +1,6 @@
 import z from 'zod';
 import { UserModel } from '../../models/User';
+import messages from '../../messages/messages.json';
 
 export interface GetUsersInputDTO {
     q: string | undefined;
@@ -12,14 +13,14 @@ export const GetUsersSchema = z
     .object({
         q: z
             .string({
-                invalid_type_error: "'q' deve ser do tipo string",
+                invalid_type_error: messages.query_type_error,
             })
             .optional(),
         token: z
             .string({
-                required_error: "'token' é obrigatório",
-                invalid_type_error: "'token' deve ser do tipo string",
+                required_error: messages.token_required,
+                invalid_type_error: messages.token_type_error,
             })
-            .min(1),
+            .min(1, messages.token_min_length_invalid),
     })
     .transform((data) => data as GetUsersInputDTO);

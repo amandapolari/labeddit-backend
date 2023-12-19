@@ -5,7 +5,12 @@ export class PostDatabase extends BaseDatabase {
     public static TABLE_POSTS = 'posts';
     public static TABLE_LIKES_DISLIKES = 'posts_likes_dislikes';
 
-    public async findPosts(q: string | undefined) {
+    // Estão sendo usados: ✅
+    // Não estão sendo usados: ❌
+    // Foi mockado: ✔
+
+    // ✅ | ✔
+    public async findPosts(q: string | undefined): Promise<PostDB[]> {
         let postsDB;
 
         if (q) {
@@ -25,7 +30,8 @@ export class PostDatabase extends BaseDatabase {
         return postsDB;
     }
 
-    public async findPostById(id: string): Promise<PostDB> {
+    // ✅ | ✔
+    public async findPostById(id: string): Promise<PostDB | undefined> {
         const [postDB]: PostDB[] = await BaseDatabase.connection(
             PostDatabase.TABLE_POSTS
         ).where({ id });
@@ -33,18 +39,21 @@ export class PostDatabase extends BaseDatabase {
         return postDB;
     }
 
-    public async findPostByUserId(id: string): Promise<PostDB[]> {
-        const postsDB: PostDB[] = await BaseDatabase.connection(
-            PostDatabase.TABLE_POSTS
-        ).where({ user_id: id });
+    // ❌ não usado em PostBusiness
+    // public async findPostByUserId(id: string): Promise<PostDB[]> {
+    //     const postsDB: PostDB[] = await BaseDatabase.connection(
+    //         PostDatabase.TABLE_POSTS
+    //     ).where({ user_id: id });
 
-        return postsDB;
-    }
+    //     return postsDB;
+    // }
 
+    // ✅ | ✔
     public async createPost(post: PostDB): Promise<void> {
         await BaseDatabase.connection(PostDatabase.TABLE_POSTS).insert(post);
     }
 
+    // ✅ | ✔
     public async updatePost(
         id: string,
         content: string,
@@ -55,6 +64,7 @@ export class PostDatabase extends BaseDatabase {
             .update({ content, updated_at });
     }
 
+    // ✅ | ✔
     public async deletePost(id: string): Promise<void> {
         await BaseDatabase.connection(PostDatabase.TABLE_POSTS)
             .del()
@@ -67,10 +77,11 @@ export class PostDatabase extends BaseDatabase {
             .del();
     }
 
-    public findLikeOrDislike = async (
+    // ✅ | ✔
+    public async findLikeOrDislike(
         userId: string,
         postId: string
-    ): Promise<LikeDislikeDB | undefined> => {
+    ): Promise<LikeDislikeDB | undefined | void> {
         const [result]: LikeDislikeDB[] = await BaseDatabase.connection(
             PostDatabase.TABLE_LIKES_DISLIKES
         )
@@ -81,8 +92,9 @@ export class PostDatabase extends BaseDatabase {
             });
 
         return result;
-    };
+    }
 
+    // ✅ | ✔
     public createLikeDislike = async (
         userId: string,
         postId: string,
@@ -97,6 +109,7 @@ export class PostDatabase extends BaseDatabase {
         );
     };
 
+    // ✅ | ✔
     public updateLikes = async (
         postId: string,
         likes: number
@@ -106,6 +119,7 @@ export class PostDatabase extends BaseDatabase {
             .where({ id: postId });
     };
 
+    // ✅ | ✔
     public updateDislikes = async (
         postId: string,
         dislikes: number
@@ -115,6 +129,7 @@ export class PostDatabase extends BaseDatabase {
             .where({ id: postId });
     };
 
+    // ✅ | ✔
     public removeLikeDislike = async (
         postId: string,
         userId: string
@@ -127,6 +142,7 @@ export class PostDatabase extends BaseDatabase {
             });
     };
 
+    // ✅ | ✔
     public updateLikeDislike = async (
         postId: string,
         userId: string,

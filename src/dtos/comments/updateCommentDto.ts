@@ -1,8 +1,9 @@
 import z from 'zod';
+import messages from '../../messages/messages.json';
 
 export interface UpdateCommentInputDTO {
     token: string;
-    commentId: string;
+    idComment: string;
     content: string;
 }
 
@@ -13,23 +14,19 @@ export interface UpdateCommentOutputDTO {
 
 export const UpdateCommentSchema = z
     .object({
-        token: z
-            .string({
-                required_error: "'token' é obrigatório",
-                invalid_type_error: "'token' deve ser do tipo string",
-            })
-            .min(1),
-        commentId: z
-            .string({
-                required_error: "'commentId' é obrigatório",
-                invalid_type_error: "'commentId' deve ser do tipo string",
-            })
-            .min(1),
+        token: z.string({
+            required_error: messages.token_required,
+            invalid_type_error: messages.token_type_error,
+        }),
+        idComment: z.string({
+            required_error: messages.idComment_required,
+            invalid_type_error: messages.idComment_type_error,
+        }),
         content: z
             .string({
-                required_error: "'content' é obrigatório",
-                invalid_type_error: "'content' deve ser do tipo string",
+                required_error: messages.content_required,
+                invalid_type_error: messages.content_type_error,
             })
-            .min(1),
+            .min(1, messages.content_min_length_invalid),
     })
     .transform((data) => data as UpdateCommentInputDTO);

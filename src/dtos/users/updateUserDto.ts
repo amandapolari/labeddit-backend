@@ -1,4 +1,5 @@
 import z from 'zod';
+import messages from '../../messages/messages.json';
 
 export interface UpdateUserInputDTO {
     idToEdit: string;
@@ -19,35 +20,33 @@ export interface UpdateUserOutputDTO {
 
 export const UpdateUserSchema = z
     .object({
-        idToEdit: z
-            .string({
-                required_error: "'idToEdit' é obrigatório",
-                invalid_type_error: "'idToEdit' deve ser do tipo string",
-            })
-            .uuid("'idToEdit' inválido"),
-        token: z
-            .string({
-                required_error: "'token' é obrigatório",
-                invalid_type_error: "'token' deve ser do tipo string",
-            })
-            .min(1, "'token' deve possuir no mínimo 1 caracteres"),
+        idToEdit: z.string({
+            required_error: messages.idToEdit_required,
+            invalid_type_error: messages.idToEdit_type_error,
+        }),
+        token: z.string({
+            required_error: messages.token_required,
+            invalid_type_error: messages.token_type_error,
+        }),
         nickname: z
             .string({
-                invalid_type_error: "'nickname' deve ser do tipo string",
+                invalid_type_error: messages.nickname_type_error,
             })
-            .min(2, "'nickname' deve possuir no mínimo 2 caracteres")
+            .min(2, messages.nickname_min_length_invalid)
+            .max(20, messages.nickname_max_length_invalid)
             .optional(),
         email: z
             .string({
-                invalid_type_error: "'email' deve ser do tipo string",
+                invalid_type_error: messages.email_type_error,
             })
-            .email("'email' inválido")
+            .email(messages.email_invalid)
             .optional(),
         password: z
             .string({
-                invalid_type_error: "'password' deve ser do tipo string",
+                invalid_type_error: messages.password_type_error,
             })
-            .min(4, "'password' deve possuir no mínimo 4 caracteres")
+            .min(4, messages.password_min_length_invalid)
+            .max(20, messages.password_max_length_invalid)
             .optional(),
     })
     .transform((data) => data as UpdateUserInputDTO);

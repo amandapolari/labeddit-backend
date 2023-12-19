@@ -1,8 +1,9 @@
 import z from 'zod';
+import messages from '../../messages/messages.json';
 
 export interface DeleteCommentInputDTO {
     token: string;
-    commentId: string;
+    idComment: string;
 }
 
 export interface DeleteCommentOutputDTO {
@@ -11,17 +12,13 @@ export interface DeleteCommentOutputDTO {
 
 export const DeleteCommentSchema = z
     .object({
-        token: z
-            .string({
-                required_error: "'token' é obrigatório",
-                invalid_type_error: "'token' deve ser do tipo string",
-            })
-            .min(1),
-        commentId: z
-            .string({
-                required_error: "'commentId' é obrigatório",
-                invalid_type_error: "'commentId' deve ser do tipo string",
-            })
-            .min(1),
+        token: z.string({
+            required_error: messages.token_required,
+            invalid_type_error: messages.token_type_error,
+        }),
+        idComment: z.string({
+            required_error: messages.idComment_required,
+            invalid_type_error: messages.idComment_type_error,
+        }),
     })
     .transform((data) => data as DeleteCommentInputDTO);

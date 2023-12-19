@@ -1,5 +1,6 @@
 import z from 'zod';
 import { GetComment } from '../../models/Comment';
+import messages from '../../messages/messages.json';
 
 export interface GetCommentInputDTO {
     token: string;
@@ -10,17 +11,14 @@ export type GetCommentOutputDTO = GetComment[];
 
 export const GetCommentSchema = z
     .object({
-        token: z
-            .string({
-                required_error: "'token' é obrigatório",
-                invalid_type_error: "'token' deve ser do tipo string",
-            })
-            .min(1),
+        token: z.string({
+            required_error: messages.token_required,
+            invalid_type_error: messages.token_type_error,
+        }),
         q: z
             .string({
-                invalid_type_error: "'q' deve ser do tipo string",
+                invalid_type_error: messages.query_type_error,
             })
-            .min(1)
             .optional(),
     })
     .transform((data) => data as GetCommentInputDTO);

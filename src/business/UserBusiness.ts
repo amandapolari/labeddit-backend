@@ -80,12 +80,6 @@ export class UserBusiness {
 
         const id = this.idGenerator.generate();
 
-        const userDBExists = await this.userDatabase.findUserById(id);
-
-        if (userDBExists) {
-            throw new BadRequestError(messages.id_already_exists);
-        }
-
         const hashPassword = await this.hashManager.hash(password);
 
         const newUser = new User(
@@ -142,7 +136,7 @@ export class UserBusiness {
 
         const user = new User(
             userDB.id,
-            userDB.name,
+            userDB.nickname,
             userDB.email,
             userDB.password,
             userDB.role,
@@ -184,16 +178,16 @@ export class UserBusiness {
             throw new BadRequestError(messages.invalid_token);
         }
 
-        if (payload.role !== USER_ROLES.ADMIN) {
-            if (idToEdit !== payload.id) {
-                throw new BadRequestError(messages.not_authorized);
-            }
-        }
-
         const userDBExists = await this.userDatabase.findUserById(idToEdit);
 
         if (!userDBExists) {
             throw new BadRequestError(messages.id_user_not_found);
+        }
+
+        if (payload.role !== USER_ROLES.ADMIN) {
+            if (idToEdit !== payload.id) {
+                throw new BadRequestError(messages.not_authorized);
+            }
         }
 
         if (nickname) {
@@ -272,7 +266,7 @@ export class UserBusiness {
         const userDBExists = await this.userDatabase.findUserById(idToDelete);
 
         if (!userDBExists) {
-            throw new BadRequestError(messages.id_post_not_found);
+            throw new BadRequestError(messages.id_user_not_found);
         }
 
         if (payload.role !== USER_ROLES.ADMIN) {

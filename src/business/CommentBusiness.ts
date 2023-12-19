@@ -83,6 +83,7 @@ export class CommentBusiness {
                     nickname: user.nickname,
                 },
                 content: comment.content,
+                postId: comment.postId,
                 createdAt: comment.createdAt,
                 updatedAt: comment.updatedAt,
                 likesCount: comment.likesCount,
@@ -97,9 +98,9 @@ export class CommentBusiness {
     public createComment = async (
         input: CreateCommentInputDTO
     ): Promise<CreateCommentOutputDTO> => {
-        const { token, postId, content } = input;
+        const { token, idPost, content } = input;
 
-        console.log(input);
+        // console.log(input);
 
         const payload = this.tokenManager.getPayload(token);
 
@@ -112,7 +113,7 @@ export class CommentBusiness {
         const comment = new Comment(
             id,
             payload.id,
-            postId,
+            idPost,
             content,
             format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
             format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
@@ -131,7 +132,7 @@ export class CommentBusiness {
         );
 
         const output = {
-            message: messages.comment_updated_sucess,
+            message: messages.comment_created_sucess,
             content,
         };
 
@@ -142,7 +143,7 @@ export class CommentBusiness {
     public updateComment = async (
         input: UpdateCommentInputDTO
     ): Promise<UpdateCommentOutputDTO> => {
-        const { token, commentId, content } = input;
+        const { token, idComment, content } = input;
 
         const payload = this.tokenManager.getPayload(token);
 
@@ -150,7 +151,7 @@ export class CommentBusiness {
             throw new BadRequestError(messages.invalid_token);
         }
 
-        const commentDB = await this.commentDatabase.findCommentById(commentId);
+        const commentDB = await this.commentDatabase.findCommentById(idComment);
 
         if (!commentDB) {
             throw new BadRequestError(messages.comment_not_found);
@@ -191,7 +192,13 @@ export class CommentBusiness {
     public deleteComment = async (
         input: DeleteCommentInputDTO
     ): Promise<DeleteCommentOutputDTO> => {
-        const { token, commentId } = input;
+        const { token, idComment } = input;
+
+        const commentDB = await this.commentDatabase.findCommentById(idComment);
+
+        if (!commentDB) {
+            throw new BadRequestError(messages.comment_not_found);
+        }
 
         const payload = this.tokenManager.getPayload(token);
 
@@ -199,13 +206,11 @@ export class CommentBusiness {
             throw new BadRequestError(messages.invalid_token);
         }
 
-        const commentDB = await this.commentDatabase.findCommentById(commentId);
-
         if (commentDB.creator_id !== payload.id) {
             throw new BadRequestError(messages.not_authorized);
         }
 
-        await this.commentDatabase.deleteComment(commentId);
+        await this.commentDatabase.deleteComment(idComment);
 
         const output: DeleteCommentOutputDTO = {
             message: messages.comment_deleted_sucess,
@@ -221,6 +226,14 @@ export class CommentBusiness {
         // Recebendo e desestruturando os dados do input:
         const { idComment, token, like } = input;
 
+        // Buscando o comment no banco de dados:
+        const commentDB = await this.commentDatabase.findCommentById(idComment);
+
+        // Se ele não encontrar o comment, vai retornar undefined e vai lançar um erro:
+        if (!commentDB) {
+            throw new NotFoundError(messages.comment_not_found);
+        }
+
         // Obtendo o payload através do token:
         const payload = this.tokenManager.getPayload(token);
 
@@ -231,14 +244,6 @@ export class CommentBusiness {
 
         // Esse é o id de quem está logado, pois foi obtido através do token:
         const userId = payload.id;
-
-        // Buscando o comment no banco de dados:
-        const commentDB = await this.commentDatabase.findCommentById(idComment);
-
-        // Se ele não encontrar o comment, vai retornar undefined e vai lançar um erro:
-        if (!commentDB) {
-            throw new NotFoundError(messages.comment_not_found);
-        }
 
         // Instanciando commentário com o id que o usuário passou no input:
         const comment = new Comment(

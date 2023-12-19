@@ -4,7 +4,12 @@ import { BaseDatabase } from './BaseDatabase';
 export class UserDatabase extends BaseDatabase {
     public static TABLE_USERS = 'users';
 
-    public async findUsers(q: string | undefined) {
+    // Estão sendo usados: ✅
+    // Não estão sendo usados: ❌
+    // Foi mockado: ✔
+
+    // ✅ | ✔
+    public async findUsers(q: string | undefined): Promise<UserDB[]> {
         let usersDB;
 
         if (q) {
@@ -24,6 +29,8 @@ export class UserDatabase extends BaseDatabase {
         return usersDB;
     }
 
+    // ❌ não usado em UserBusiness
+    // ✅ | ✔ USADO EM CommentBusiness
     public async findAllUsers() {
         const usersDB: UserDB[] = await BaseDatabase.connection(
             UserDatabase.TABLE_USERS
@@ -32,7 +39,8 @@ export class UserDatabase extends BaseDatabase {
         return usersDB;
     }
 
-    public async findUserById(id: string): Promise<UserDB> {
+    // ✅ | ✔
+    public async findUserById(id: string): Promise<UserDB | undefined> {
         const [userDB]: UserDB[] = await BaseDatabase.connection(
             UserDatabase.TABLE_USERS
         ).where({ id });
@@ -40,7 +48,8 @@ export class UserDatabase extends BaseDatabase {
         return userDB;
     }
 
-    public async findUserByEmail(email: string) {
+    // ✅ | ✔
+    public async findUserByEmail(email: string): Promise<UserDB | undefined> {
         const [userDB] = await BaseDatabase.connection(
             UserDatabase.TABLE_USERS
         ).where({ email });
@@ -48,28 +57,39 @@ export class UserDatabase extends BaseDatabase {
         return userDB;
     }
 
-    public async findUserByNickname(nickname: string): Promise<string> {
-        const [nicknameDB]: string[] = await BaseDatabase.connection(
+    // ✅ | ✔
+    public async findUserByNickname(
+        nickname: string
+    ): Promise<string[] | undefined> {
+        const result: { nickname: string }[] = await BaseDatabase.connection(
             UserDatabase.TABLE_USERS
         )
             .select('nickname')
             .where({ nickname });
 
-        return nicknameDB;
+        if (result.length > 0) {
+            const nicknames: string[] = result.map((user) => user.nickname);
+            return nicknames;
+        } else {
+            return undefined;
+        }
     }
 
+    // ✅ | ✔
     public async insertUser(newUserDB: UserDB): Promise<void> {
         await BaseDatabase.connection(UserDatabase.TABLE_USERS).insert(
             newUserDB
         );
     }
 
+    // ✅ | ✔
     public async updateUserById(id: string, content: UserDB): Promise<void> {
         await BaseDatabase.connection(UserDatabase.TABLE_USERS)
             .where({ id })
             .update(content);
     }
 
+    // ✅ | ✔
     public async deleteUserById(id: string): Promise<void> {
         await BaseDatabase.connection(UserDatabase.TABLE_USERS)
             .where({ id })
