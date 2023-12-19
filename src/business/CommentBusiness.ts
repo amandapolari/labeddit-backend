@@ -99,7 +99,7 @@ export class CommentBusiness {
     ): Promise<CreateCommentOutputDTO> => {
         const { token, idPost, content } = input;
 
-        console.log(input);
+        // console.log(input);
 
         const payload = this.tokenManager.getPayload(token);
 

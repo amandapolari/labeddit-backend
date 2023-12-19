@@ -70,7 +70,7 @@ describe('testing updatePost business', () => {
             await postBusiness.updatePost(input);
         } catch (error) {
             if (error instanceof BadRequestError) {
-                expect(error.message).toBe(messages.invalid_token);
+                expect(error.message).toBe(messages.id_post_not_found);
                 expect(error.statusCode).toBe(400);
             }
         }
@@ -89,7 +89,7 @@ describe('testing updatePost business', () => {
             await postBusiness.updatePost(input);
         } catch (error) {
             if (error instanceof BadRequestError) {
-                expect(error.message).toBe(messages.invalid_token);
+                expect(error.message).toBe(messages.not_authorized);
                 expect(error.statusCode).toBe(400);
             }
         }
