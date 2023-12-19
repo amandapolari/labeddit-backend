@@ -35,7 +35,6 @@ describe('testing login business', () => {
     });
 
     // cases of failure:
-
     test('deve disparar um erro caso o email esteja vazio', async () => {
         expect.assertions(1);
 

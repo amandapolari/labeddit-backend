@@ -83,6 +83,7 @@ export class CommentBusiness {
                     nickname: user.nickname,
                 },
                 content: comment.content,
+                postId: comment.postId,
                 createdAt: comment.createdAt,
                 updatedAt: comment.updatedAt,
                 likesCount: comment.likesCount,

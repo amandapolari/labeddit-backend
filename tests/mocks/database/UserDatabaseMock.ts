@@ -21,6 +21,42 @@ const usersMock: UserDB[] = [
         created_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
         updated_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
     },
+    {
+        id: 'id-mock-carlinhos',
+        nickname: 'Carlinhos',
+        email: 'carlinhos@gmail.com',
+        password: 'hash-mock-carlinhos', // senha = "Carlinhos@123"
+        role: USER_ROLES.NORMAL,
+        created_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+    },
+    {
+        id: 'id-mock-layla',
+        nickname: 'Layla',
+        email: 'layla@gmail.com',
+        password: 'hash-mock-layla', // senha = "Layla@123"
+        role: USER_ROLES.NORMAL,
+        created_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+    },
+    {
+        id: 'id-mock-bia',
+        nickname: 'Bia',
+        email: 'bia@gmail.com',
+        password: 'hash-mock-bia', // senha = "Bia@123"
+        role: USER_ROLES.ADMIN,
+        created_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+    },
+    {
+        id: 'id-mock-jorginho',
+        nickname: 'Jorginho',
+        email: 'jorginho@gmail.com',
+        password: 'hash-mock-jorginho', // senha = "Jorginho@123"
+        role: USER_ROLES.NORMAL,
+        created_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+    },
 ];
 
 export class UserDatabaseMock extends BaseDatabase {

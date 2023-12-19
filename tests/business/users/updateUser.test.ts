@@ -92,9 +92,6 @@ describe('testing updateUser business', () => {
             const input = UpdateUserSchema.parse({
                 idToEdit: 'id-mock-luan',
                 token: undefined,
-                // nickname: 'Luanzinho',
-                // email: 'luanzinho@gmail.com',
-                // password: 'Luanzinho@123',
             });
         } catch (error) {
             if (error instanceof ZodError) {
@@ -107,9 +104,6 @@ describe('testing updateUser business', () => {
         const input = UpdateUserSchema.parse({
             idToEdit: 'id-mock-luan',
             token: 'abcd',
-            // nickname: 'Luanzinho',
-            // email: 'luanzinho@gmail.com',
-            // password: 'Luanzinho@123',
         });
 
         expect.assertions(2);
@@ -128,9 +122,6 @@ describe('testing updateUser business', () => {
         const input = UpdateUserSchema.parse({
             idToEdit: 'id-mock-amanda',
             token: 'token-mock-luan',
-            // nickname: 'Luanzinho',
-            // email: 'luanzinho@gmail.com',
-            // password: 'Luanzinho@123',
         });
 
         expect.assertions(2);
@@ -148,9 +139,6 @@ describe('testing updateUser business', () => {
         const input = UpdateUserSchema.parse({
             idToEdit: 'id-mock-lua',
             token: 'token-mock-luan',
-            // nickname: 'Luanzinho',
-            // email: 'luanzinho@gmail.com',
-            // password: 'Luanzinho@123',
         });
 
         expect.assertions(2);
@@ -169,8 +157,6 @@ describe('testing updateUser business', () => {
             idToEdit: 'id-mock-luan',
             token: 'token-mock-luan',
             nickname: 'Amanda',
-            // email: 'luanzinho@gmail.com',
-            // password: 'Luanzinho@123',
         });
 
         expect.assertions(2);
@@ -188,9 +174,7 @@ describe('testing updateUser business', () => {
         const input = UpdateUserSchema.parse({
             idToEdit: 'id-mock-luan',
             token: 'token-mock-luan',
-            // nickname: 'Amanda',
             email: 'amanda@gmail.com',
-            // password: 'Luanzinho@123',
         });
 
         expect.assertions(2);

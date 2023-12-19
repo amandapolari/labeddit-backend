@@ -33,7 +33,6 @@ describe('testing deleteUser business', () => {
     });
 
     // cases of failure:
-
     test('deve disparar um erro 400 caso o id seja inválido', async () => {
         const input = DeleteUserSchema.parse({
             idToDelete: 'id-mock-luan',

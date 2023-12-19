@@ -1,14 +1,13 @@
 import { format } from 'date-fns';
 import { CommentDB } from '../../../src/models/Comment';
 import { BaseDatabase } from '../../../src/database/BaseDatabase';
-import { LikeDislikeDB } from '../../../src/models/Post';
 
 const commentsMock: CommentDB[] = [
     {
         id: 'id-mock-1',
         creator_id: 'id-mock-luan',
         post_id: 'id-mock-1',
-        content: 'Comment mock 1',
+        content: 'Comentário do Luan no primeiro post',
         created_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
         updated_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
         likes_count: 0,
@@ -18,7 +17,7 @@ const commentsMock: CommentDB[] = [
         id: 'id-mock-2',
         creator_id: 'id-mock-luan',
         post_id: 'id-mock-1',
-        content: 'Comment mock 2',
+        content: 'Outro comentário do Luan no primeiro post',
         created_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
         updated_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
         likes_count: 0,
@@ -28,7 +27,37 @@ const commentsMock: CommentDB[] = [
         id: 'id-mock-3',
         creator_id: 'id-mock-amanda',
         post_id: 'id-mock-1',
-        content: 'Comment mock 3',
+        content: 'Comentário da Amanda no primeiro post',
+        created_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+        likes_count: 0,
+        dislikes_count: 0,
+    },
+    {
+        id: 'id-mock-4',
+        creator_id: 'id-mock-carlinhos',
+        post_id: 'id-mock-2',
+        content: 'Comentário do Carlinhos no segundo post',
+        created_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+        likes_count: 0,
+        dislikes_count: 0,
+    },
+    {
+        id: 'id-mock-5',
+        creator_id: 'id-mock-layla',
+        post_id: 'id-mock-2',
+        content: 'Comentário da Layla no segundo post',
+        created_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+        likes_count: 0,
+        dislikes_count: 0,
+    },
+    {
+        id: 'id-mock-6',
+        creator_id: 'id-mock-bia',
+        post_id: 'id-mock-3',
+        content: 'Comentário da Bia no terceiro post',
         created_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
         updated_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
         likes_count: 0,

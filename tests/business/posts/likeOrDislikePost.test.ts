@@ -111,11 +111,4 @@ describe('testing likeOrDislikePost business', () => {
             }
         }
     });
-
-    /*
-    ATÉ AQUI ESTÁ EM: 
-    82.4% Statements 14/17 
-    100% Functions
-    82.4% Lines
-    */
 });

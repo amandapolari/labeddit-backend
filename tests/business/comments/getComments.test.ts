@@ -24,12 +24,13 @@ describe('testing getComments business', () => {
         });
 
         const returned = await commentBusiness.getComments(input);
-
+        
         const expected = [
             {
                 id: 'id-mock-1',
                 creator: { id: 'id-mock-luan', nickname: 'Luan' },
-                content: 'Comment mock 1',
+                postId: 'id-mock-1',
+                content: 'Comentário do Luan no primeiro post',
                 createdAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
                 updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
                 likesCount: 0,
@@ -38,7 +39,8 @@ describe('testing getComments business', () => {
             {
                 id: 'id-mock-2',
                 creator: { id: 'id-mock-luan', nickname: 'Luan' },
-                content: 'Comment mock 2',
+                postId: 'id-mock-1',
+                content: 'Outro comentário do Luan no primeiro post',
                 createdAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
                 updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
                 likesCount: 0,
@@ -47,7 +49,38 @@ describe('testing getComments business', () => {
             {
                 id: 'id-mock-3',
                 creator: { id: 'id-mock-amanda', nickname: 'Amanda' },
-                content: 'Comment mock 3',
+                postId: 'id-mock-1',
+                content: 'Comentário da Amanda no primeiro post',
+                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+                likesCount: 0,
+                dislikesCount: 0,
+            },
+            {
+                id: 'id-mock-4',
+                creator: { id: 'id-mock-carlinhos', nickname: 'Carlinhos' },
+                postId: 'id-mock-2',
+                content: 'Comentário do Carlinhos no segundo post',
+                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+                likesCount: 0,
+                dislikesCount: 0,
+            },
+            {
+                id: 'id-mock-5',
+                creator: { id: 'id-mock-layla', nickname: 'Layla' },
+                postId: 'id-mock-2',
+                content: 'Comentário da Layla no segundo post',
+                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+                likesCount: 0,
+                dislikesCount: 0,
+            },
+            {
+                id: 'id-mock-6',
+                creator: { id: 'id-mock-bia', nickname: 'Bia' },
+                postId: 'id-mock-3',
+                content: 'Comentário da Bia no terceiro post',
                 createdAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
                 updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
                 likesCount: 0,

@@ -33,7 +33,7 @@ describe('testing getUsers business', () => {
                 id: 'id-mock-luan',
                 nickname: 'Luan',
                 email: 'luan@gmail.com',
-                password: 'hash-mock-luan',
+                password: 'hash-mock-luan', // senha = "Luan@123"
                 role: 'NORMAL',
                 createdAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
                 updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
@@ -42,8 +42,44 @@ describe('testing getUsers business', () => {
                 id: 'id-mock-amanda',
                 nickname: 'Amanda',
                 email: 'amanda@gmail.com',
-                password: 'hash-mock-amanda',
+                password: 'hash-mock-amanda', // senha = "Amanda@123"
                 role: 'ADMIN',
+                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+            },
+            {
+                id: 'id-mock-carlinhos',
+                nickname: 'Carlinhos',
+                email: 'carlinhos@gmail.com',
+                password: 'hash-mock-carlinhos', // senha = "Carlinhos@123"
+                role: 'NORMAL',
+                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+            },
+            {
+                id: 'id-mock-layla',
+                nickname: 'Layla',
+                email: 'layla@gmail.com',
+                password: 'hash-mock-layla', // senha = "Layla@123"
+                role: 'NORMAL',
+                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+            },
+            {
+                id: 'id-mock-bia',
+                nickname: 'Bia',
+                email: 'bia@gmail.com',
+                password: 'hash-mock-bia', // senha = "Bia@123"
+                role: 'ADMIN',
+                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+            },
+            {
+                id: 'id-mock-jorginho',
+                nickname: 'Jorginho',
+                email: 'jorginho@gmail.com',
+                password: 'hash-mock-jorginho', // senha = "Jorginho@123"
+                role: 'NORMAL',
                 createdAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
                 updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
             },
@@ -74,13 +110,12 @@ describe('testing getUsers business', () => {
 
         expect(returned).toEqual(expected);
     });
+
     test('deve retornar uma lista de usuários que possuem "L" em seu nickname', async () => {
         const input = GetUsersSchema.parse({
             q: 'L',
             token: 'token-mock-amanda',
         });
-
-        const returned = await userBusiness.getUsers(input);
 
         const expected: GetUsersOutputDTO = [
             {
@@ -92,7 +127,27 @@ describe('testing getUsers business', () => {
                 createdAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
                 updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
             },
+            {
+                id: 'id-mock-carlinhos',
+                nickname: 'Carlinhos',
+                email: 'carlinhos@gmail.com',
+                password: 'hash-mock-carlinhos', // senha = "Carlinhos@123"
+                role: 'NORMAL',
+                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+            },
+            {
+                id: 'id-mock-layla',
+                nickname: 'Layla',
+                email: 'layla@gmail.com',
+                password: 'hash-mock-layla', // senha = "Layla@123"
+                role: 'NORMAL',
+                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+            },
         ];
+
+        const returned = await userBusiness.getUsers(input);
 
         expect(returned).toEqual(expected);
     });
