@@ -225,6 +225,14 @@ export class CommentBusiness {
         // Recebendo e desestruturando os dados do input:
         const { idComment, token, like } = input;
 
+        // Buscando o comment no banco de dados:
+        const commentDB = await this.commentDatabase.findCommentById(idComment);
+
+        // Se ele não encontrar o comment, vai retornar undefined e vai lançar um erro:
+        if (!commentDB) {
+            throw new NotFoundError(messages.comment_not_found);
+        }
+
         // Obtendo o payload através do token:
         const payload = this.tokenManager.getPayload(token);
 
@@ -235,14 +243,6 @@ export class CommentBusiness {
 
         // Esse é o id de quem está logado, pois foi obtido através do token:
         const userId = payload.id;
-
-        // Buscando o comment no banco de dados:
-        const commentDB = await this.commentDatabase.findCommentById(idComment);
-
-        // Se ele não encontrar o comment, vai retornar undefined e vai lançar um erro:
-        if (!commentDB) {
-            throw new NotFoundError(messages.comment_not_found);
-        }
 
         // Instanciando commentário com o id que o usuário passou no input:
         const comment = new Comment(
