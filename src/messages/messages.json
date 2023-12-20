@@ -1,6 +1,6 @@
 {
-    "user_registration_success": "Seu cadastro foi concluído com sucesso. Bem-vindo(a) à nossa comunidade!",
-    "user_login_success": "Login realizado com sucesso",
+    "user_registration_success": "Seu cadastro foi realizado com sucesso. Bem-vindo(a) à nossa comunidade!",
+    "user_login_success": "Login realizado com sucesso!",
     "user_update_sucess": "Dados do usuário atualizados com sucesso",
     "user_delete_sucess": "Conta deletada com sucesso",
     "post_created_sucess": "Post criado com sucesso",
@@ -46,6 +46,7 @@
     "content_required": "O campo 'content' não pode estar vazio",
     "content_type_error": "O campo 'content' deve ser do tipo string",
     "content_min_length_invalid": "O campo 'content' deve possuir pelo menos 1 caracter",
+    "content_max_length_invalid": "O campo 'content' deve possuir no máximo 350 caracteres",
     "idPost_required": "O campo 'idPost' não pode estar vazio",
     "idPost_type_error": "O campo 'idPost' deve ser do tipo string",
     "like_required": "O campo 'like' não pode estar vazio",
