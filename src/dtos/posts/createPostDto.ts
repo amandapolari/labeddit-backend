@@ -22,6 +22,7 @@ export const CreatePostSchema = z
                 required_error: messages.content_required,
                 invalid_type_error: messages.content_type_error,
             })
-            .min(1, messages.content_min_length_invalid),
+            .min(1, messages.content_min_length_invalid)
+            .max(350, messages.content_max_length_invalid),
     })
     .transform((data) => data as CreatePostInputDTO);
