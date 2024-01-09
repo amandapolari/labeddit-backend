@@ -25,6 +25,10 @@ import {
     LikeOrDislikePostOutputDTO,
 } from '../dtos/posts/likeOrDislikePostDto';
 import { NotFoundError } from '../errors/NotFoundError';
+import {
+    GetPostByIdInputDTO,
+    GetPostByIdOutputDTO,
+} from '../dtos/posts/getPostByIdDto';
 
 export class PostBusiness {
     constructor(
@@ -122,6 +126,88 @@ export class PostBusiness {
         });
 
         return output;
+    };
+
+    // GET POST BY ID
+    public getPostById = async (
+        input: GetPostByIdInputDTO
+        // ): Promise<GetPostByIdOutputDTO> => {
+    ) => {
+        const { idPost, token } = input;
+        const payload = this.tokenManager.getPayload(token);
+
+        if (payload === null) {
+            throw new BadRequestError(messages.invalid_token);
+        }
+
+        const postDB = await this.postDatabase.findPostById(idPost);
+
+        // postDB.toBusinessModel();
+
+        console.log('post capturado:', postDB);
+
+        // if (!postDB) {
+        //     throw new BadRequestError(messages.id_post_not_found);
+        // }
+
+        // const posts = new Post(
+        //     postDB.id,
+        //     postDB.creator_id,
+        //     postDB.content,
+        //     postDB.created_at,
+        //     postDB.updated_at,
+        //     postDB.likes_count,
+        //     postDB.dislikes_count,
+        //     postDB.comments_count
+        // );
+
+        // // posts.toBusinessModel();
+
+        // const userDB = await this.userDatabase.findUserById(
+        //     posts.getCreatorId()
+        // );
+
+        // const mapUserIdName = new Map();
+
+        // // userDB.forEach((user: any) => {
+        // //     mapUserIdName.set(user.id, user);
+        // // });
+
+        // const output = posts.map((post) => {
+        //     // const user = mapUserIdName.get(post.creatorId);
+        //     // const comments = mapPostIdComments.get(post.id) || [];
+
+        //     return {
+        //         id: post.id,
+        //         creator: {
+        //             id: user.id,
+        //             nickname: user.nickname,
+        //         },
+        //         createdAt: post.createdAt,
+        //         updatedAt: post.updatedAt,
+        //         content: post.content,
+        //         likesCount: post.likesCount,
+        //         dislikesCount: post.dislikesCount,
+        //         commentsCount: comments.length,
+        //         comments: comments.map((comment: any) => {
+        //             const commentUser = mapUserIdName.get(comment.creator_id);
+        //             return {
+        //                 id: comment.id,
+        //                 creator: {
+        //                     id: commentUser.id,
+        //                     nickname: commentUser.nickname,
+        //                 },
+        //                 createdAt: comment.created_at,
+        //                 updatedAt: comment.updated_at,
+        //                 content: comment.content,
+        //                 likesCount: comment.likes_count,
+        //                 dislikesCount: comment.dislikes_count,
+        //             };
+        //         }),
+        //     };
+        // });
+
+        // return output;
     };
 
     // CREATE

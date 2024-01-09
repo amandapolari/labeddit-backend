@@ -7,13 +7,15 @@ import { TokenManagerMock } from '../../mocks/services/TokenManagerMock';
 import { GetCommentSchema } from '../../../src/dtos/comments/getCommentDto';
 import messages from '../../../src/messages/messages.json';
 import { BadRequestError } from '../../../src/errors/BadRequestError';
+import { PostDatabaseMock } from '../../mocks/database/PostDatabaseMock';
 
 describe('testing getComments business', () => {
     const commentBusiness = new CommentBusiness(
         new IdGeneratorMock(),
         new TokenManagerMock(),
         new CommentDatabaseMock(),
-        new UserDatabaseMock()
+        new UserDatabaseMock(),
+        new PostDatabaseMock()
     );
 
     // cases of success
@@ -24,7 +26,7 @@ describe('testing getComments business', () => {
         });
 
         const returned = await commentBusiness.getComments(input);
-        
+
         const expected = [
             {
                 id: 'id-mock-1',

@@ -82,6 +82,11 @@ export class UserDatabaseMock extends BaseDatabase {
         return usersMock.filter((user) => user.id === id)[0];
     }
 
+    public async findNicknameById(id: string): Promise<string | undefined> {
+        const user = usersMock.filter((user) => user.id === id)[0];
+        return user ? user.nickname : undefined;
+    }
+
     public async findUserByEmail(email: string): Promise<UserDB | undefined> {
         return usersMock.filter((user) => user.email === email)[0];
     }

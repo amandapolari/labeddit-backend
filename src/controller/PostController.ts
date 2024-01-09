@@ -7,6 +7,7 @@ import { UpdatePostSchema } from '../dtos/posts/updatePostDto';
 import { DeleteUserSchema } from '../dtos/users/deleteUserDto';
 import { PostBusiness } from '../business/PostBusiness';
 import { LikeOrDislikePostSchema } from '../dtos/posts/likeOrDislikePostDto';
+import { GetPostByIdSchema } from '../dtos/posts/getPostByIdDto';
 
 export class PostController {
     constructor(private postBusiness: PostBusiness) {}
@@ -20,6 +21,29 @@ export class PostController {
             });
 
             const output = await this.postBusiness.getPosts(input);
+
+            res.status(200).send(output);
+        } catch (error) {
+            console.log(error);
+            if (error instanceof ZodError) {
+                res.status(400).send(error.issues);
+            } else if (error instanceof BaseError) {
+                res.status(error.statusCode).send(error.message);
+            } else {
+                res.status(500).send('Erro inesperado');
+            }
+        }
+    };
+
+    // GET POST BY ID
+    public getPostById = async (req: Request, res: Response) => {
+        try {
+            const input = GetPostByIdSchema.parse({
+                idPost: req.params.id,
+                token: req.headers.authorization as string,
+            });
+
+            const output = await this.postBusiness.getPostById(input);
 
             res.status(200).send(output);
         } catch (error) {

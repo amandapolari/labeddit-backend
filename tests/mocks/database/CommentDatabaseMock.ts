@@ -67,6 +67,7 @@ const commentsMock: CommentDB[] = [
 
 export class CommentDatabaseMock extends BaseDatabase {
     public static TABLE_COMMENTS = 'comments';
+    public static TABLE_POSTS = 'posts';
 
     public async findComments(q: string | undefined): Promise<CommentDB[]> {
         if (q) {
@@ -84,6 +85,10 @@ export class CommentDatabaseMock extends BaseDatabase {
         return commentsMock.filter((comment) => comment.id === id)[0];
     }
 
+    public async findCommentByPostId(id: string): Promise<CommentDB[]> {
+        return commentsMock.filter((comment) => comment.post_id === id);
+    }
+
     public async createComment(comment: CommentDB): Promise<void> {
         return;
     }
@@ -92,6 +97,13 @@ export class CommentDatabaseMock extends BaseDatabase {
         id: string,
         content: string,
         updated_at: string
+    ): Promise<void> {
+        return;
+    }
+
+    public async updateCommentInPost(
+        id: string,
+        comments_count: number
     ): Promise<void> {
         return;
     }
