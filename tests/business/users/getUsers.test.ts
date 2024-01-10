@@ -35,8 +35,8 @@ describe('testing getUsers business', () => {
                 email: 'luan@gmail.com',
                 password: 'hash-mock-luan', // senha = "Luan@123"
                 role: 'NORMAL',
-                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
-                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
             },
             {
                 id: 'id-mock-amanda',
@@ -44,8 +44,8 @@ describe('testing getUsers business', () => {
                 email: 'amanda@gmail.com',
                 password: 'hash-mock-amanda', // senha = "Amanda@123"
                 role: 'ADMIN',
-                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
-                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
             },
             {
                 id: 'id-mock-carlinhos',
@@ -53,8 +53,8 @@ describe('testing getUsers business', () => {
                 email: 'carlinhos@gmail.com',
                 password: 'hash-mock-carlinhos', // senha = "Carlinhos@123"
                 role: 'NORMAL',
-                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
-                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
             },
             {
                 id: 'id-mock-layla',
@@ -62,8 +62,8 @@ describe('testing getUsers business', () => {
                 email: 'layla@gmail.com',
                 password: 'hash-mock-layla', // senha = "Layla@123"
                 role: 'NORMAL',
-                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
-                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
             },
             {
                 id: 'id-mock-bia',
@@ -71,8 +71,8 @@ describe('testing getUsers business', () => {
                 email: 'bia@gmail.com',
                 password: 'hash-mock-bia', // senha = "Bia@123"
                 role: 'ADMIN',
-                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
-                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
             },
             {
                 id: 'id-mock-jorginho',
@@ -80,8 +80,8 @@ describe('testing getUsers business', () => {
                 email: 'jorginho@gmail.com',
                 password: 'hash-mock-jorginho', // senha = "Jorginho@123"
                 role: 'NORMAL',
-                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
-                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
             },
         ];
 
@@ -103,8 +103,8 @@ describe('testing getUsers business', () => {
                 email: 'luan@gmail.com',
                 password: 'hash-mock-luan',
                 role: 'NORMAL',
-                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
-                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
             },
         ];
 
@@ -124,8 +124,8 @@ describe('testing getUsers business', () => {
                 email: 'luan@gmail.com',
                 password: 'hash-mock-luan',
                 role: 'NORMAL',
-                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
-                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
             },
             {
                 id: 'id-mock-carlinhos',
@@ -133,8 +133,8 @@ describe('testing getUsers business', () => {
                 email: 'carlinhos@gmail.com',
                 password: 'hash-mock-carlinhos', // senha = "Carlinhos@123"
                 role: 'NORMAL',
-                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
-                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
             },
             {
                 id: 'id-mock-layla',
@@ -142,8 +142,8 @@ describe('testing getUsers business', () => {
                 email: 'layla@gmail.com',
                 password: 'hash-mock-layla', // senha = "Layla@123"
                 role: 'NORMAL',
-                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
-                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
             },
         ];
 
@@ -166,8 +166,8 @@ describe('testing getUsers business', () => {
                 email: 'amanda@gmail.com',
                 password: 'hash-mock-amanda',
                 role: 'ADMIN',
-                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
-                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
             },
         ];
 
@@ -188,8 +188,8 @@ describe('testing getUsers business', () => {
                 email: 'amanda@gmail.com',
                 password: 'hash-mock-amanda',
                 role: 'ADMIN',
-                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
-                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
             },
         ];
 
@@ -197,7 +197,6 @@ describe('testing getUsers business', () => {
     });
 
     // cases of failure:
-
     test('deve disparar um erro caso o token esteja vazio', async () => {
         expect.assertions(1);
 

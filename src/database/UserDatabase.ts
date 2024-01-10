@@ -49,6 +49,15 @@ export class UserDatabase extends BaseDatabase {
     }
 
     // ✅ | ✔
+    public async findNicknameById(id: string): Promise<string | undefined> {
+        const [userDB]: UserDB[] = await BaseDatabase.connection(
+            UserDatabase.TABLE_USERS
+        ).where({ id });
+
+        return userDB.nickname;
+    }
+
+    // ✅ | ✔
     public async findUserByEmail(email: string): Promise<UserDB | undefined> {
         const [userDB] = await BaseDatabase.connection(
             UserDatabase.TABLE_USERS

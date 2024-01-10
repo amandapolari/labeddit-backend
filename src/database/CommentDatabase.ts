@@ -4,6 +4,7 @@ import { BaseDatabase } from './BaseDatabase';
 export class CommentDatabase extends BaseDatabase {
     public static TABLE_COMMENTS = 'comments';
     public static TABLE_LIKES_DISLIKES = 'comments_likes_dislikes';
+    public static TABLE_POSTS = 'posts';
 
     // Estão sendo usados: ✅
     // Não estão sendo usados: ❌
@@ -49,13 +50,14 @@ export class CommentDatabase extends BaseDatabase {
     // }
 
     // ❌ não usado em CommentBusiness
-    // public async findCommentByPostId(id: string): Promise<CommentDB[]> {
-    //     const commentsDB: CommentDB[] = await BaseDatabase.connection(
-    //         CommentDatabase.TABLE_COMMENTS
-    //     ).where({ post_id: id });
+    // ✅ | ✔
+    public async findCommentByPostId(id: string): Promise<CommentDB[]> {
+        const commentsDB: CommentDB[] = await BaseDatabase.connection(
+            CommentDatabase.TABLE_COMMENTS
+        ).where({ post_id: id });
 
-    //     return commentsDB;
-    // }
+        return commentsDB;
+    }
 
     // ✅ | ✔
     public async createComment(comment: CommentDB): Promise<void> {
@@ -73,6 +75,30 @@ export class CommentDatabase extends BaseDatabase {
         await BaseDatabase.connection(CommentDatabase.TABLE_COMMENTS)
             .where({ id })
             .update({ content, updated_at });
+    }
+
+    // Updando comentário na tabela de posts:
+    // public async updateCommentInPost(
+    //     id: string,
+    //     comments_count: number
+    // ): Promise<void> {
+    //     await BaseDatabase.connection(CommentDatabase.TABLE_POSTS)
+    //         .where({ id })
+    //         .update({ comments_count });
+    // }
+
+    // ✅ | ✔
+    public async updateCommentInPost(
+        id: string,
+        comments_count: number
+    ): Promise<void> {
+        if (!id || comments_count < 0) {
+            throw new Error('Parâmetros inválidos para updateCommentInPost.');
+        }
+
+        await BaseDatabase.connection(CommentDatabase.TABLE_POSTS)
+            .where({ id })
+            .update({ comments_count });
     }
 
     // ✅ | ✔

@@ -23,8 +23,6 @@ describe('testing updateUser business', () => {
             idToEdit: 'id-mock-luan',
             token: 'token-mock-luan',
             nickname: 'Luanzinho',
-            // email: 'luan@gmail.com',
-            // password: 'Luan@123',
         });
         const returned = await userBusiness.updateUser(input);
 
@@ -33,7 +31,7 @@ describe('testing updateUser business', () => {
             user: {
                 nickname: 'Luanzinho',
                 email: 'luan@gmail.com',
-                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
             },
         };
 
@@ -44,9 +42,7 @@ describe('testing updateUser business', () => {
         const input = UpdateUserSchema.parse({
             idToEdit: 'id-mock-luan',
             token: 'token-mock-luan',
-            // nickname: 'Luanzinho',
             email: 'luanzinho@gmail.com',
-            // password: 'Luan@123',
         });
         const returned = await userBusiness.updateUser(input);
 
@@ -55,7 +51,7 @@ describe('testing updateUser business', () => {
             user: {
                 nickname: 'Luan',
                 email: 'luanzinho@gmail.com',
-                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
             },
         };
 
@@ -66,8 +62,6 @@ describe('testing updateUser business', () => {
         const input = UpdateUserSchema.parse({
             idToEdit: 'id-mock-luan',
             token: 'token-mock-luan',
-            // nickname: 'Luanzinho',
-            // email: 'luanzinho@gmail.com',
             password: 'Luanzinho@123',
         });
         const returned = await userBusiness.updateUser(input);
@@ -77,7 +71,7 @@ describe('testing updateUser business', () => {
             user: {
                 nickname: 'Luan',
                 email: 'luan@gmail.com',
-                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
             },
         };
 
@@ -135,6 +129,7 @@ describe('testing updateUser business', () => {
             }
         }
     });
+
     test('deve disparar um erro 400 caso o usuário tenha fornecido um id que não consta no banco de dados', async () => {
         const input = UpdateUserSchema.parse({
             idToEdit: 'id-mock-lua',
@@ -152,6 +147,7 @@ describe('testing updateUser business', () => {
             }
         }
     });
+
     test('deve disparar um erro 400 caso o usuário tente criar um nickname que já exista no banco de dados', async () => {
         const input = UpdateUserSchema.parse({
             idToEdit: 'id-mock-luan',
@@ -170,6 +166,7 @@ describe('testing updateUser business', () => {
             }
         }
     });
+
     test('deve disparar um erro 400 caso o usuário tente criar um email que já exista no banco de dados', async () => {
         const input = UpdateUserSchema.parse({
             idToEdit: 'id-mock-luan',

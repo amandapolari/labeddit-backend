@@ -90,8 +90,8 @@ export class UserBusiness {
             USER_ROLES.NORMAL,
             // Somente para teste:
             // USER_ROLES.ADMIN,
-            format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
-            format(new Date(), 'dd-MM-yyyy HH:mm:ss')
+            format(new Date(), 'dd-MM-yyyy HH:mm'),
+            format(new Date(), 'dd-MM-yyyy HH:mm')
         );
 
         const newUserDB = newUser.toDBModel();
@@ -225,7 +225,7 @@ export class UserBusiness {
 
         password && user.setPassword(hashPassword as string);
 
-        user.setUpdatedAt(format(new Date(), 'dd-MM-yyyy HH:mm:ss'));
+        user.setUpdatedAt(format(new Date(), 'dd-MM-yyyy HH:mm'));
 
         const newUser: UserDB = {
             id: user.getId(),

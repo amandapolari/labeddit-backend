@@ -27,13 +27,16 @@ import {
     LikeOrDislikeCommentOutputDTO,
 } from '../dtos/comments/likeOrDislikeCommentDto';
 import { NotFoundError } from '../errors/NotFoundError';
+import { Post } from '../models/Post';
+import { PostDatabase } from '../database/PostDatabase';
 
 export class CommentBusiness {
     constructor(
         private idGenerator: IdGenerator,
         private tokenManager: TokenManager,
         private commentDatabase: CommentDatabase,
-        private userDatabase: UserDatabase
+        private userDatabase: UserDatabase,
+        private postDatabase: PostDatabase
     ) {}
 
     // GET
@@ -115,21 +118,55 @@ export class CommentBusiness {
             payload.id,
             idPost,
             content,
-            format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
-            format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+            format(new Date(), 'dd-MM-yyyy HH:mm'),
+            format(new Date(), 'dd-MM-yyyy HH:mm'),
             0,
             0
         );
 
+        // console.log(comment.toDatabaseModel());
+
         await this.commentDatabase.createComment(comment.toDatabaseModel());
 
-        const newComment = comment.toDatabaseModel();
+        // const newComment = comment.toDatabaseModel();
 
-        await this.commentDatabase.updateComment(
-            newComment.post_id,
-            newComment.content,
-            newComment.updated_at
+        // await this.commentDatabase.updateComment(
+        //     newComment.post_id,
+        //     newComment.content,
+        //     newComment.updated_at
+        // );
+
+        const postDB = await this.postDatabase.findPostById(idPost);
+
+        if (!postDB) {
+            throw new NotFoundError(messages.id_post_not_found);
+        }
+
+        const post = new Post(
+            postDB.id,
+            postDB.creator_id,
+            postDB.content,
+            postDB.created_at,
+            postDB.updated_at,
+            postDB.likes_count,
+            postDB.dislikes_count,
+            postDB.comments_count
         );
+
+        // await this.commentDatabase.updateCommentInPost(
+        //     post.getId(),
+        //     post.getCommentsCount() + 1
+        // );
+
+        try {
+            await this.commentDatabase.updateCommentInPost(
+                post.getId(),
+                post.getCommentsCount() + 1
+            );
+        } catch (error) {
+            console.error('Error updating comments count in post:', error);
+            // Tratar ou relançar a exceção conforme necessário
+        }
 
         const output = {
             message: messages.comment_created_sucess,
@@ -167,7 +204,7 @@ export class CommentBusiness {
             commentDB.post_id,
             content,
             commentDB.created_at,
-            format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+            format(new Date(), 'dd-MM-yyyy HH:mm'),
             commentDB.likes_count,
             commentDB.dislikes_count
         );
@@ -211,6 +248,41 @@ export class CommentBusiness {
         }
 
         await this.commentDatabase.deleteComment(idComment);
+
+        const comment = new Comment(
+            commentDB.id,
+            commentDB.creator_id,
+            commentDB.post_id,
+            commentDB.content,
+            commentDB.created_at,
+            commentDB.updated_at,
+            commentDB.likes_count,
+            commentDB.dislikes_count
+        );
+
+        const postDB = await this.postDatabase.findPostById(
+            comment.getPostId()
+        );
+
+        if (!postDB) {
+            throw new NotFoundError(messages.id_post_not_found);
+        }
+
+        const post = new Post(
+            postDB.id,
+            postDB.creator_id,
+            postDB.content,
+            postDB.created_at,
+            postDB.updated_at,
+            postDB.likes_count,
+            postDB.dislikes_count,
+            postDB.comments_count
+        );
+
+        await this.commentDatabase.updateCommentInPost(
+            comment.getPostId(),
+            post.getCommentsCount() - 1
+        );
 
         const output: DeleteCommentOutputDTO = {
             message: messages.comment_deleted_sucess,

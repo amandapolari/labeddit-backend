@@ -6,13 +6,15 @@ import { IdGeneratorMock } from '../../mocks/services/IdGeneratorMock';
 import { TokenManagerMock } from '../../mocks/services/TokenManagerMock';
 import messages from '../../../src/messages/messages.json';
 import { BadRequestError } from '../../../src/errors/BadRequestError';
+import { PostDatabaseMock } from '../../mocks/database/PostDatabaseMock';
 
 describe('testing createComment business', () => {
     const commentBusiness = new CommentBusiness(
         new IdGeneratorMock(),
         new TokenManagerMock(),
         new CommentDatabaseMock(),
-        new UserDatabaseMock()
+        new UserDatabaseMock(),
+        new PostDatabaseMock()
     );
 
     // cases of success

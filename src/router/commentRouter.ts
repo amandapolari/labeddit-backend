@@ -5,6 +5,7 @@ import { IdGenerator } from '../services/IdGenerator';
 import { TokenManager } from '../services/TokenManager';
 import { CommentDatabase } from '../database/CommentDatabase';
 import { UserDatabase } from '../database/UserDatabase';
+import { PostDatabase } from '../database/PostDatabase';
 
 export const commentRouter = express.Router();
 
@@ -13,7 +14,8 @@ const commentController = new CommentController(
         new IdGenerator(),
         new TokenManager(),
         new CommentDatabase(),
-        new UserDatabase()
+        new UserDatabase(),
+        new PostDatabase()
     )
 );
 

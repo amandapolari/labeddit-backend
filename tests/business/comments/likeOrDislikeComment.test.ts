@@ -7,13 +7,15 @@ import { TokenManagerMock } from '../../mocks/services/TokenManagerMock';
 import messages from '../../../src/messages/messages.json';
 import { BadRequestError } from '../../../src/errors/BadRequestError';
 import { NotFoundError } from '../../../src/errors/NotFoundError';
+import { PostDatabaseMock } from '../../mocks/database/PostDatabaseMock';
 
 describe('testing likeOrDislikeComment business', () => {
     const commentBusiness = new CommentBusiness(
         new IdGeneratorMock(),
         new TokenManagerMock(),
         new CommentDatabaseMock(),
-        new UserDatabaseMock()
+        new UserDatabaseMock(),
+        new PostDatabaseMock()
     );
 
     // cases of success:
@@ -34,25 +36,6 @@ describe('testing likeOrDislikeComment business', () => {
     });
 
     // cases of failure:
-    // test('deve disparar um erro 400 caso o id seja inválido', async () => {
-    //     const input = LikeOrDislikeCommentSchema.parse({
-    //         idComment: 'id',
-    //         token: 'token-mock-luan',
-    //         like: true,
-    //     });
-
-    //     expect.assertions(2);
-
-    //     try {
-    //         await commentBusiness.likeOrDislikeComment(input);
-    //     } catch (error) {
-    //         if (error instanceof BadRequestError) {
-    //             expect(error.message).toBe(messages.invalid_token);
-    //             expect(error.statusCode).toBe(400);
-    //         }
-    //     }
-    // });
-
     test('deve disparar um erro 404 caso o usuário tenha fornecido um id que não consta no banco de dados', async () => {
         const input = LikeOrDislikeCommentSchema.parse({
             idComment: 'id-mock-unexistent',
@@ -90,11 +73,4 @@ describe('testing likeOrDislikeComment business', () => {
             }
         }
     });
-
-    /*
-    ATÉ AQUI:
-    80.34% statements
-    100% functions
-    80% lines
-    */
 });

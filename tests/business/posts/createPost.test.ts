@@ -17,6 +17,7 @@ describe('testing createPost business', () => {
         new CommentDatabaseMock()
     );
 
+    // cases of success:
     test('deve retornar uma mensagem de sucesso ao criar um post', async () => {
         const input = CreatePostSchema.parse({
             token: 'token-mock-amanda',
@@ -33,6 +34,7 @@ describe('testing createPost business', () => {
         expect(returned).toEqual(expected);
     });
 
+    // cases of failure:
     test('deve disparar erro se o token for inválido', async () => {
         expect.assertions(2);
 

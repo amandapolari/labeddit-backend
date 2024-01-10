@@ -25,6 +25,11 @@ import {
     LikeOrDislikePostOutputDTO,
 } from '../dtos/posts/likeOrDislikePostDto';
 import { NotFoundError } from '../errors/NotFoundError';
+import {
+    GetPostByIdInputDTO,
+    GetPostByIdOutputDTO,
+} from '../dtos/posts/getPostByIdDto';
+import { Comment } from '../models/Comment';
 
 export class PostBusiness {
     constructor(
@@ -124,6 +129,92 @@ export class PostBusiness {
         return output;
     };
 
+    // GET POST BY ID
+    public getPostById = async (
+        input: GetPostByIdInputDTO
+    ): Promise<GetPostByIdOutputDTO> => {
+        const { idPost, token } = input;
+        const payload = this.tokenManager.getPayload(token);
+
+        if (payload === null) {
+            throw new BadRequestError(messages.invalid_token);
+        }
+
+        const postsDB = await this.postDatabase.findPostById(idPost);
+
+        const usersDB = await this.userDatabase.findAllUsers();
+
+        if (!postsDB) {
+            throw new BadRequestError(messages.id_post_not_found);
+        }
+
+        const mapUserIdName = new Map();
+
+        usersDB.forEach((user: any) => {
+            mapUserIdName.set(user.id, user);
+        });
+
+        const commentsDB = await this.commentDatabase.findCommentByPostId(
+            idPost
+        );
+
+        const comments = commentsDB.map((commentDB) => {
+            const comment = new Comment(
+                commentDB.id,
+                commentDB.creator_id,
+                commentDB.post_id,
+                commentDB.content,
+                commentDB.created_at,
+                commentDB.updated_at,
+                commentDB.likes_count,
+                commentDB.dislikes_count
+            );
+            return comment.toBusinessModel();
+        });
+
+        const mapPostIdComments = new Map();
+
+        commentsDB.forEach((comment: any) => {
+            if (!mapPostIdComments.has(comment.post_id)) {
+                mapPostIdComments.set(comment.post_id, []);
+            }
+            mapPostIdComments.get(comment.post_id).push(comment);
+        });
+
+        const user = mapUserIdName.get(postsDB.creator_id);
+        const comment = mapPostIdComments.get(postsDB.id) || [];
+        const output = {
+            id: postsDB.id,
+            creator: {
+                id: user.id,
+                nickname: user.nickname,
+            },
+            createdAt: postsDB.created_at,
+            updatedAt: postsDB.updated_at,
+            content: postsDB.content,
+            likesCount: postsDB.likes_count,
+            dislikesCount: postsDB.dislikes_count,
+            commentsCount: comments.length,
+            comments: comment.map((comment: any) => {
+                const commentUser = mapUserIdName.get(comment.creator_id);
+                return {
+                    id: comment.id,
+                    creator: {
+                        id: commentUser.id,
+                        nickname: commentUser.nickname,
+                    },
+                    createdAt: comment.created_at,
+                    updatedAt: comment.updated_at,
+                    content: comment.content,
+                    likesCount: comment.likes_count,
+                    dislikesCount: comment.dislikes_count,
+                };
+            }),
+        };
+
+        return output;
+    };
+
     // CREATE
     public createPost = async (
         input: CreatePostInputDTO
@@ -142,8 +233,8 @@ export class PostBusiness {
             id,
             payload.id,
             content,
-            format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
-            format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+            format(new Date(), 'dd-MM-yyyy HH:mm'),
+            format(new Date(), 'dd-MM-yyyy HH:mm'),
             0,
             0,
             0
@@ -188,7 +279,7 @@ export class PostBusiness {
             post.creator_id,
             content,
             post.created_at,
-            format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+            format(new Date(), 'dd-MM-yyyy HH:mm'),
             post.likes_count,
             post.dislikes_count,
             post.comments_count

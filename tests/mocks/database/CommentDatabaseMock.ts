@@ -8,8 +8,8 @@ const commentsMock: CommentDB[] = [
         creator_id: 'id-mock-luan',
         post_id: 'id-mock-1',
         content: 'Comentário do Luan no primeiro post',
-        created_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
-        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+        created_at: format(new Date(), 'dd-MM-yyyy HH:mm'),
+        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm'),
         likes_count: 0,
         dislikes_count: 0,
     },
@@ -18,8 +18,8 @@ const commentsMock: CommentDB[] = [
         creator_id: 'id-mock-luan',
         post_id: 'id-mock-1',
         content: 'Outro comentário do Luan no primeiro post',
-        created_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
-        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+        created_at: format(new Date(), 'dd-MM-yyyy HH:mm'),
+        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm'),
         likes_count: 0,
         dislikes_count: 0,
     },
@@ -28,8 +28,8 @@ const commentsMock: CommentDB[] = [
         creator_id: 'id-mock-amanda',
         post_id: 'id-mock-1',
         content: 'Comentário da Amanda no primeiro post',
-        created_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
-        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+        created_at: format(new Date(), 'dd-MM-yyyy HH:mm'),
+        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm'),
         likes_count: 0,
         dislikes_count: 0,
     },
@@ -38,8 +38,8 @@ const commentsMock: CommentDB[] = [
         creator_id: 'id-mock-carlinhos',
         post_id: 'id-mock-2',
         content: 'Comentário do Carlinhos no segundo post',
-        created_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
-        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+        created_at: format(new Date(), 'dd-MM-yyyy HH:mm'),
+        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm'),
         likes_count: 0,
         dislikes_count: 0,
     },
@@ -48,8 +48,8 @@ const commentsMock: CommentDB[] = [
         creator_id: 'id-mock-layla',
         post_id: 'id-mock-2',
         content: 'Comentário da Layla no segundo post',
-        created_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
-        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+        created_at: format(new Date(), 'dd-MM-yyyy HH:mm'),
+        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm'),
         likes_count: 0,
         dislikes_count: 0,
     },
@@ -58,8 +58,8 @@ const commentsMock: CommentDB[] = [
         creator_id: 'id-mock-bia',
         post_id: 'id-mock-3',
         content: 'Comentário da Bia no terceiro post',
-        created_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
-        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+        created_at: format(new Date(), 'dd-MM-yyyy HH:mm'),
+        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm'),
         likes_count: 0,
         dislikes_count: 0,
     },
@@ -67,6 +67,7 @@ const commentsMock: CommentDB[] = [
 
 export class CommentDatabaseMock extends BaseDatabase {
     public static TABLE_COMMENTS = 'comments';
+    public static TABLE_POSTS = 'posts';
 
     public async findComments(q: string | undefined): Promise<CommentDB[]> {
         if (q) {
@@ -84,6 +85,10 @@ export class CommentDatabaseMock extends BaseDatabase {
         return commentsMock.filter((comment) => comment.id === id)[0];
     }
 
+    public async findCommentByPostId(id: string): Promise<CommentDB[]> {
+        return commentsMock.filter((comment) => comment.post_id === id);
+    }
+
     public async createComment(comment: CommentDB): Promise<void> {
         return;
     }
@@ -92,6 +97,13 @@ export class CommentDatabaseMock extends BaseDatabase {
         id: string,
         content: string,
         updated_at: string
+    ): Promise<void> {
+        return;
+    }
+
+    public async updateCommentInPost(
+        id: string,
+        comments_count: number
     ): Promise<void> {
         return;
     }
