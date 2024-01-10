@@ -159,4 +159,37 @@ export class Comment {
             dislikesCount: this.dislikesCount,
         };
     }
+
+    // public async toGetComment(
+    //     creator: {
+    //         id: string;
+    //         nickname: string;
+    //     }
+    // ): Promise<GetComment> {
+    //     return {
+    //         id: this.id,
+    //         creator,
+    //         postId: this.postId,
+    //         content: this.content,
+    //         createdAt: this.createdAt,
+    //         updatedAt: this.updatedAt,
+    //         likesCount: this.likesCount,
+    //         dislikesCount: this.dislikesCount,
+    //     };
+    // }
+
+    // public static fromDatabaseModel(data: any): CommentModel[] {
+    //     return data.map((item: any) => {
+    //         return {
+    //             id: item.id,
+    //             creatorId: item.creator_id,
+    //             postId: item.post_id,
+    //             content: item.content,
+    //             createdAt: item.created_at,
+    //             updatedAt: item.updated_at,
+    //             likesCount: item.likes_count,
+    //             dislikesCount: item.dislikes_count,
+    //         };
+    //     });
+    // }
 }

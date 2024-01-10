@@ -21,6 +21,7 @@ describe('testing updatePost business', () => {
         new CommentDatabaseMock()
     );
 
+    // cases of success:
     test('deve retornar uma mensagem de sucesso ao atualizar um post', async () => {
         const input = UpdatePostSchema.parse({
             idToEdit: 'id-mock-1',
@@ -38,6 +39,7 @@ describe('testing updatePost business', () => {
         expect(returned).toEqual(expected);
     });
 
+    // cases of failure:
     test('deve disparar erro se o token for inválido', async () => {
         expect.assertions(2);
 

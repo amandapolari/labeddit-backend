@@ -9,8 +9,8 @@ const usersMock: UserDB[] = [
         email: 'luan@gmail.com',
         password: 'hash-mock-luan', // senha = "Luan@123"
         role: USER_ROLES.NORMAL,
-        created_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
-        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+        created_at: format(new Date(), 'dd-MM-yyyy HH:mm'),
+        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm'),
     },
     {
         id: 'id-mock-amanda',
@@ -18,8 +18,8 @@ const usersMock: UserDB[] = [
         email: 'amanda@gmail.com',
         password: 'hash-mock-amanda', // senha = "Amanda@123"
         role: USER_ROLES.ADMIN,
-        created_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
-        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+        created_at: format(new Date(), 'dd-MM-yyyy HH:mm'),
+        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm'),
     },
     {
         id: 'id-mock-carlinhos',
@@ -27,8 +27,8 @@ const usersMock: UserDB[] = [
         email: 'carlinhos@gmail.com',
         password: 'hash-mock-carlinhos', // senha = "Carlinhos@123"
         role: USER_ROLES.NORMAL,
-        created_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
-        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+        created_at: format(new Date(), 'dd-MM-yyyy HH:mm'),
+        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm'),
     },
     {
         id: 'id-mock-layla',
@@ -36,8 +36,8 @@ const usersMock: UserDB[] = [
         email: 'layla@gmail.com',
         password: 'hash-mock-layla', // senha = "Layla@123"
         role: USER_ROLES.NORMAL,
-        created_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
-        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+        created_at: format(new Date(), 'dd-MM-yyyy HH:mm'),
+        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm'),
     },
     {
         id: 'id-mock-bia',
@@ -45,8 +45,8 @@ const usersMock: UserDB[] = [
         email: 'bia@gmail.com',
         password: 'hash-mock-bia', // senha = "Bia@123"
         role: USER_ROLES.ADMIN,
-        created_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
-        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+        created_at: format(new Date(), 'dd-MM-yyyy HH:mm'),
+        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm'),
     },
     {
         id: 'id-mock-jorginho',
@@ -54,12 +54,16 @@ const usersMock: UserDB[] = [
         email: 'jorginho@gmail.com',
         password: 'hash-mock-jorginho', // senha = "Jorginho@123"
         role: USER_ROLES.NORMAL,
-        created_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
-        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+        created_at: format(new Date(), 'dd-MM-yyyy HH:mm'),
+        updated_at: format(new Date(), 'dd-MM-yyyy HH:mm'),
     },
 ];
 
 export class UserDatabaseMock extends BaseDatabase {
+    public clearMock(): void {
+        usersMock.length = 0; // Limpa o array
+    }
+
     public static TABLE_USERS = 'users';
 
     public async findUsers(q: string | undefined): Promise<UserDB[]> {

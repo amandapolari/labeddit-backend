@@ -36,6 +36,7 @@ Clique [**AQUI**](https://documenter.getpostman.com/view/28316385/2s9Ykq713o) pa
     -   [Posts](#posts)
         -   [createPost](#createpost)
         -   [getPosts](#getposts)
+        -   [getPostById](#getpostbyid)
         -   [updatePost](#updatepost)
         -   [deletePost](#deletepost)
         -   [likeOrDislikePost](#likeordislikepost)
@@ -588,6 +589,71 @@ Está requisição tem como objetivo visualizar todos os posts cadastrados no si
         "comments": []
     }
 ]
+```
+
+### **getPostById**
+
+[🔼](#projeto-labeddit-backend)
+
+Está requisição tem como objetivo visualizar um post com id fornecido. Para uma requisição bem sucedida é necessário fornecer o seu token via headers e o id do post via path params. Caso não forneça um token ou o id do post, não terá acesso à visualização dos posts.
+
+#### EXEMPLO DE REQUISIÇÃO:
+
+-   URL: /posts/:id<br>
+-   Método HTTP: GET<br>
+-   Acesso: Privado<br>
+-   Enviar via params o id do post que deseja visualizar
+-   Enviar via headers.authorization: token_de_autenticação
+
+**INPUT:**
+
+```json
+// headers.authorization = "token_de_autenticação"
+// params :id
+```
+
+**OUTPUT:**
+
+```json
+{
+    "id": "a3662cf6-1526-48fe-ba27-cde2ca91ed4d",
+    "creator": {
+        "id": "e296f01c-a218-49d7-b719-75f441ea5953",
+        "nickname": "Marcinho"
+    },
+    "createdAt": "09-01-2024 15:32:25",
+    "updatedAt": "09-01-2024 15:32:25",
+    "content": "Igual a você eu sei que não tem!",
+    "likesCount": 1,
+    "dislikesCount": 0,
+    "commentsCount": 2,
+    "comments": [
+        {
+            "id": "9ad516fc-953d-4cd9-ad4c-cc6ee39bdb6d",
+            "creator": {
+                "id": "c5d445c5-ad1e-4f6a-9d80-2672c7abd9fd",
+                "nickname": "Amanda"
+            },
+            "createdAt": "09-01-2024 15:40:57",
+            "updatedAt": "09-01-2024 15:40:57",
+            "content": "De zero a dez te dou nota cem!",
+            "likesCount": 1,
+            "dislikesCount": 0
+        },
+        {
+            "id": "4c66b184-e949-406d-91bf-b62bdacda1eb",
+            "creator": {
+                "id": "c5d445c5-ad1e-4f6a-9d80-2672c7abd9fd",
+                "nickname": "Amanda"
+            },
+            "createdAt": "09-01-2024 16:45:37",
+            "updatedAt": "09-01-2024 16:45:37",
+            "content": "E até hoje lembro de ti e ainda sonho que um dia você vem!",
+            "likesCount": 0,
+            "dislikesCount": 0
+        }
+    ]
+}
 ```
 
 ### **updatePost**
