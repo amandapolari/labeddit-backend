@@ -35,7 +35,9 @@ export class CommentDatabase extends BaseDatabase {
     public async findCommentById(id: string): Promise<CommentDB | undefined> {
         const [commentDB]: CommentDB[] = await BaseDatabase.connection(
             CommentDatabase.TABLE_COMMENTS
-        ).where({ id });
+        )
+            .where({ id })
+            .orderBy('created_at', 'DESC');
 
         return commentDB;
     }
@@ -54,7 +56,9 @@ export class CommentDatabase extends BaseDatabase {
     public async findCommentByPostId(id: string): Promise<CommentDB[]> {
         const commentsDB: CommentDB[] = await BaseDatabase.connection(
             CommentDatabase.TABLE_COMMENTS
-        ).where({ post_id: id });
+        )
+            .where({ post_id: id })
+            .orderBy('created_at', 'DESC');
 
         return commentsDB;
     }

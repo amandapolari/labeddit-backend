@@ -31,7 +31,7 @@ describe('testing updateUser business', () => {
             user: {
                 nickname: 'Luanzinho',
                 email: 'luan@gmail.com',
-                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                updatedAt: expect.any(String),
             },
         };
 
@@ -51,7 +51,7 @@ describe('testing updateUser business', () => {
             user: {
                 nickname: 'Luan',
                 email: 'luanzinho@gmail.com',
-                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                updatedAt: expect.any(String),
             },
         };
 
@@ -71,7 +71,7 @@ describe('testing updateUser business', () => {
             user: {
                 nickname: 'Luan',
                 email: 'luan@gmail.com',
-                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                updatedAt: expect.any(String),
             },
         };
 

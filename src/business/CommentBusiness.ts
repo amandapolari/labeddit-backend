@@ -118,8 +118,8 @@ export class CommentBusiness {
             payload.id,
             idPost,
             content,
-            format(new Date(), 'dd-MM-yyyy HH:mm'),
-            format(new Date(), 'dd-MM-yyyy HH:mm'),
+            format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+            format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
             0,
             0
         );
@@ -204,7 +204,7 @@ export class CommentBusiness {
             commentDB.post_id,
             content,
             commentDB.created_at,
-            format(new Date(), 'dd-MM-yyyy HH:mm'),
+            format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
             commentDB.likes_count,
             commentDB.dislikes_count
         );

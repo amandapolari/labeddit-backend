@@ -158,6 +158,9 @@ export class PostBusiness {
             idPost
         );
 
+        // console.log(commentsDB);
+        
+
         const comments = commentsDB.map((commentDB) => {
             const comment = new Comment(
                 commentDB.id,
@@ -233,8 +236,8 @@ export class PostBusiness {
             id,
             payload.id,
             content,
-            format(new Date(), 'dd-MM-yyyy HH:mm'),
-            format(new Date(), 'dd-MM-yyyy HH:mm'),
+            format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
+            format(new Date(), 'dd-MM-yyyy HH:mm:ss'),
             0,
             0,
             0
