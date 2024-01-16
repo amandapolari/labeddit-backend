@@ -32,6 +32,7 @@ export interface GetComment {
     updatedAt: string;
     likesCount: number;
     dislikesCount: number;
+    isCurrentUserComment?: boolean;
 }
 
 export interface LikeDislikeDB {

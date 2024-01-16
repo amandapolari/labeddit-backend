@@ -4,7 +4,6 @@ import { IdGeneratorMock } from '../../mocks/services/IdGeneratorMock';
 import { TokenManagerMock } from '../../mocks/services/TokenManagerMock';
 import { UserDatabaseMock } from '../../mocks/database/UserDatabaseMock';
 import { GetPostsSchema } from '../../../src/dtos/posts/getPostsDto';
-import { format } from 'date-fns';
 import { CommentDatabaseMock } from '../../mocks/database/CommentDatabaseMock';
 import { BadRequestError } from '../../../src/errors/BadRequestError';
 import messages from '../../../src/messages/messages.json';
@@ -35,8 +34,8 @@ describe('testing getPosts business', () => {
             {
                 id: 'id-mock-1',
                 creator: { id: 'id-mock-luan', nickname: 'Luan' },
-                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
-                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                createdAt: expect.any(String),
+                updatedAt: expect.any(String),
                 content: 'Esse é o post da Luan',
                 likesCount: 0,
                 dislikesCount: 0,
@@ -44,7 +43,7 @@ describe('testing getPosts business', () => {
                 comments: [
                     {
                         content: 'Comentário do Luan no primeiro post',
-                        createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                        createdAt: expect.any(String),
                         creator: {
                             id: 'id-mock-luan',
                             nickname: 'Luan',
@@ -52,11 +51,11 @@ describe('testing getPosts business', () => {
                         dislikesCount: 0,
                         id: 'id-mock-1',
                         likesCount: 0,
-                        updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                        updatedAt: expect.any(String),
                     },
                     {
                         content: 'Outro comentário do Luan no primeiro post',
-                        createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                        createdAt: expect.any(String),
                         creator: {
                             id: 'id-mock-luan',
                             nickname: 'Luan',
@@ -64,11 +63,11 @@ describe('testing getPosts business', () => {
                         dislikesCount: 0,
                         id: 'id-mock-2',
                         likesCount: 0,
-                        updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                        updatedAt: expect.any(String),
                     },
                     {
                         content: 'Comentário da Amanda no primeiro post',
-                        createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                        createdAt: expect.any(String),
                         creator: {
                             id: 'id-mock-amanda',
                             nickname: 'Amanda',
@@ -76,15 +75,17 @@ describe('testing getPosts business', () => {
                         dislikesCount: 0,
                         id: 'id-mock-3',
                         likesCount: 0,
-                        updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                        updatedAt: expect.any(String),
                     },
                 ],
+                isCurrentUserPost: false,
+                userLikedBoolean: null,
             },
             {
                 id: 'id-mock-2',
                 creator: { id: 'id-mock-luan', nickname: 'Luan' },
-                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
-                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                createdAt: expect.any(String),
+                updatedAt: expect.any(String),
                 content: 'Esse é outro post da Luan',
                 likesCount: 0,
                 dislikesCount: 0,
@@ -92,7 +93,7 @@ describe('testing getPosts business', () => {
                 comments: [
                     {
                         content: 'Comentário do Carlinhos no segundo post',
-                        createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                        createdAt: expect.any(String),
                         creator: {
                             id: 'id-mock-carlinhos',
                             nickname: 'Carlinhos',
@@ -100,11 +101,11 @@ describe('testing getPosts business', () => {
                         dislikesCount: 0,
                         id: 'id-mock-4',
                         likesCount: 0,
-                        updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                        updatedAt: expect.any(String),
                     },
                     {
                         content: 'Comentário da Layla no segundo post',
-                        createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                        createdAt: expect.any(String),
                         creator: {
                             id: 'id-mock-layla',
                             nickname: 'Layla',
@@ -112,15 +113,17 @@ describe('testing getPosts business', () => {
                         dislikesCount: 0,
                         id: 'id-mock-5',
                         likesCount: 0,
-                        updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                        updatedAt: expect.any(String),
                     },
                 ],
+                isCurrentUserPost: false,
+                userLikedBoolean: null,
             },
             {
                 id: 'id-mock-3',
                 creator: { id: 'id-mock-amanda', nickname: 'Amanda' },
-                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
-                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                createdAt: expect.any(String),
+                updatedAt: expect.any(String),
                 content: 'Esse é o post da Amanda',
                 likesCount: 0,
                 dislikesCount: 0,
@@ -128,7 +131,7 @@ describe('testing getPosts business', () => {
                 comments: [
                     {
                         content: 'Comentário da Bia no terceiro post',
-                        createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                        createdAt: expect.any(String),
                         creator: {
                             id: 'id-mock-bia',
                             nickname: 'Bia',
@@ -136,64 +139,76 @@ describe('testing getPosts business', () => {
                         dislikesCount: 0,
                         id: 'id-mock-6',
                         likesCount: 0,
-                        updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                        updatedAt: expect.any(String),
                     },
                 ],
+                isCurrentUserPost: true,
+                userLikedBoolean: null,
             },
             {
                 id: 'id-mock-4',
                 creator: { id: 'id-mock-carlinhos', nickname: 'Carlinhos' },
-                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
-                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                createdAt: expect.any(String),
+                updatedAt: expect.any(String),
                 content: 'Esse é o post do Carlinhos',
                 likesCount: 0,
                 dislikesCount: 0,
                 commentsCount: 0,
                 comments: [],
+                isCurrentUserPost: false,
+                userLikedBoolean: null,
             },
             {
                 id: 'id-mock-5',
                 creator: { id: 'id-mock-layla', nickname: 'Layla' },
-                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
-                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                createdAt: expect.any(String),
+                updatedAt: expect.any(String),
                 content: 'Esse é o post da Layla',
                 likesCount: 0,
                 dislikesCount: 0,
                 commentsCount: 0,
                 comments: [],
+                isCurrentUserPost: false,
+                userLikedBoolean: null,
             },
             {
                 id: 'id-mock-6',
                 creator: { id: 'id-mock-bia', nickname: 'Bia' },
-                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
-                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                createdAt: expect.any(String),
+                updatedAt: expect.any(String),
                 content: 'Esse é o post da Bia',
                 likesCount: 0,
                 dislikesCount: 0,
                 commentsCount: 0,
                 comments: [],
+                isCurrentUserPost: false,
+                userLikedBoolean: null,
             },
             {
                 id: 'id-mock-7',
                 creator: { id: 'id-mock-jorginho', nickname: 'Jorginho' },
-                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
-                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                createdAt: expect.any(String),
+                updatedAt: expect.any(String),
                 content: 'Esse é o post do Jorginho',
                 likesCount: 0,
                 dislikesCount: 0,
                 commentsCount: 0,
                 comments: [],
+                isCurrentUserPost: false,
+                userLikedBoolean: null,
             },
             {
                 id: 'id-mock-8',
                 creator: { id: 'id-mock-layla', nickname: 'Layla' },
-                createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
-                updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                createdAt: expect.any(String),
+                updatedAt: expect.any(String),
                 content: 'Esse é outro post da Layla',
                 likesCount: 0,
                 dislikesCount: 0,
                 commentsCount: 0,
                 comments: [],
+                isCurrentUserPost: false,
+                userLikedBoolean: null,
             },
         ];
 

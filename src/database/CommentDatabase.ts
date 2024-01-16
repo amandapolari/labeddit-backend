@@ -19,12 +19,12 @@ export class CommentDatabase extends BaseDatabase {
                 CommentDatabase.TABLE_COMMENTS
             )
                 .where('content', 'LIKE', `%${q}%`)
-                .orderBy('created_at', 'DESC');
+                .orderBy('updated_at', 'DESC');
             commentsDB = result;
         } else {
             const result: CommentDB[] = await BaseDatabase.connection(
                 CommentDatabase.TABLE_COMMENTS
-            ).orderBy('created_at', 'DESC');
+            ).orderBy('updated_at', 'DESC');
             commentsDB = result;
         }
 
@@ -37,7 +37,7 @@ export class CommentDatabase extends BaseDatabase {
             CommentDatabase.TABLE_COMMENTS
         )
             .where({ id })
-            .orderBy('created_at', 'DESC');
+            .orderBy('updated_at', 'DESC');
 
         return commentDB;
     }

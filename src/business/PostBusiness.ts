@@ -92,39 +92,76 @@ export class PostBusiness {
             mapPostIdComments.get(comment.post_id).push(comment);
         });
 
-        const output = posts.map((post) => {
-            const user = mapUserIdName.get(post.creatorId);
-            const comments = mapPostIdComments.get(post.id) || [];
+        const output = await Promise.all(
+            posts.map(async (post) => {
+                const user = mapUserIdName.get(post.creatorId);
+                const comments = mapPostIdComments.get(post.id) || [];
 
-            return {
-                id: post.id,
-                creator: {
-                    id: user.id,
-                    nickname: user.nickname,
-                },
-                createdAt: post.createdAt,
-                updatedAt: post.updatedAt,
-                content: post.content,
-                likesCount: post.likesCount,
-                dislikesCount: post.dislikesCount,
-                commentsCount: comments.length,
-                comments: comments.map((comment: any) => {
-                    const commentUser = mapUserIdName.get(comment.creator_id);
-                    return {
-                        id: comment.id,
-                        creator: {
-                            id: commentUser.id,
-                            nickname: commentUser.nickname,
-                        },
-                        createdAt: comment.created_at,
-                        updatedAt: comment.updated_at,
-                        content: comment.content,
-                        likesCount: comment.likes_count,
-                        dislikesCount: comment.dislikes_count,
-                    };
-                }),
-            };
-        });
+                const userLiked = await this.postDatabase.findLikeOrDislike(
+                    payload.id,
+                    post.id
+                );
+
+                // let buttonColor;
+                // if (userLiked && userLiked.like) {
+                //     buttonColor = 'green';
+                // } else if (userLiked && !userLiked.like) {
+                //     buttonColor = 'red';
+                // } else {
+                //     buttonColor = 'gray';
+                // }
+
+                /* 
+                DOCUMENTAR:
+                1. Se o usuário logado tiver dado like, vai retornar true.
+                2. Se o usuário logado tiver dado dislike, vai retornar false.
+                3. Se o usuário logado não tiver dado like ou dislike, vai retornar null.
+                */
+
+                let userLikedBoolean;
+
+                if (userLiked && userLiked.like) {
+                    userLikedBoolean = true;
+                } else if (userLiked && !userLiked.like) {
+                    userLikedBoolean = false;
+                } else {
+                    userLikedBoolean = null;
+                }
+
+                return {
+                    id: post.id,
+                    creator: {
+                        id: user.id,
+                        nickname: user.nickname,
+                    },
+                    createdAt: post.createdAt,
+                    updatedAt: post.updatedAt,
+                    content: post.content,
+                    likesCount: post.likesCount,
+                    dislikesCount: post.dislikesCount,
+                    commentsCount: comments.length,
+                    comments: comments.map((comment: any) => {
+                        const commentUser = mapUserIdName.get(
+                            comment.creator_id
+                        );
+                        return {
+                            id: comment.id,
+                            creator: {
+                                id: commentUser.id,
+                                nickname: commentUser.nickname,
+                            },
+                            createdAt: comment.created_at,
+                            updatedAt: comment.updated_at,
+                            content: comment.content,
+                            likesCount: comment.likes_count,
+                            dislikesCount: comment.dislikes_count,
+                        };
+                    }),
+                    isCurrentUserPost: payload.id === post.creatorId,
+                    userLikedBoolean,
+                };
+            })
+        );
 
         return output;
     };
@@ -158,10 +195,7 @@ export class PostBusiness {
             idPost
         );
 
-        // console.log(commentsDB);
-        
-
-        const comments = commentsDB.map((commentDB) => {
+        const comments = commentsDB.map(async (commentDB) => {
             const comment = new Comment(
                 commentDB.id,
                 commentDB.creator_id,
@@ -186,6 +220,28 @@ export class PostBusiness {
 
         const user = mapUserIdName.get(postsDB.creator_id);
         const comment = mapPostIdComments.get(postsDB.id) || [];
+
+        /* 
+        DOCUMENTAR:
+        1. Se o usuário logado tiver dado like, vai retornar true.
+        2. Se o usuário logado tiver dado dislike, vai retornar false.
+        3. Se o usuário logado não tiver dado like ou dislike, vai retornar null.
+        */
+
+        // let userLikedBoolean: any;
+
+        // if (userLiked && userLiked.like) {
+        //     userLikedBoolean = true;
+        // } else if (userLiked && !userLiked.like) {
+        //     userLikedBoolean = false;
+        // } else {
+        //     userLikedBoolean = null;
+        // }
+
+        let userLiked;
+
+        let userLikedBoolean: any;
+
         const output = {
             id: postsDB.id,
             creator: {
@@ -198,21 +254,48 @@ export class PostBusiness {
             likesCount: postsDB.likes_count,
             dislikesCount: postsDB.dislikes_count,
             commentsCount: comments.length,
-            comments: comment.map((comment: any) => {
-                const commentUser = mapUserIdName.get(comment.creator_id);
-                return {
-                    id: comment.id,
-                    creator: {
-                        id: commentUser.id,
-                        nickname: commentUser.nickname,
-                    },
-                    createdAt: comment.created_at,
-                    updatedAt: comment.updated_at,
-                    content: comment.content,
-                    likesCount: comment.likes_count,
-                    dislikesCount: comment.dislikes_count,
-                };
-            }),
+            comments: await Promise.all(
+                comment.map(async (comment: any) => {
+                    const commentUser = mapUserIdName.get(comment.creator_id);
+
+                    userLiked = await this.commentDatabase.findLikeOrDislike(
+                        payload.id,
+                        comment.id
+                    );
+
+                    /* 
+                    DOCUMENTAR:
+                    1. Se o usuário logado tiver dado like, vai retornar true.
+                    2. Se o usuário logado tiver dado dislike, vai retornar false.
+                    3. Se o usuário logado não tiver dado like ou dislike, vai retornar null.
+                    */
+
+                    let userLikedBoolean;
+
+                    if (userLiked && userLiked.like) {
+                        userLikedBoolean = true;
+                    } else if (userLiked && !userLiked.like) {
+                        userLikedBoolean = false;
+                    } else {
+                        userLikedBoolean = null;
+                    }
+
+                    return {
+                        id: comment.id,
+                        creator: {
+                            id: commentUser.id,
+                            nickname: commentUser.nickname,
+                        },
+                        createdAt: comment.created_at,
+                        updatedAt: comment.updated_at,
+                        content: comment.content,
+                        likesCount: comment.likes_count,
+                        dislikesCount: comment.dislikes_count,
+                        isCurrentUserPost: payload.id === comment.creator_id,
+                        userLikedBoolean,
+                    };
+                })
+            ),
         };
 
         return output;

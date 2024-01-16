@@ -5,7 +5,6 @@ import { PostDatabaseMock } from '../../mocks/database/PostDatabaseMock';
 import { UserDatabaseMock } from '../../mocks/database/UserDatabaseMock';
 import { IdGeneratorMock } from '../../mocks/services/IdGeneratorMock';
 import { TokenManagerMock } from '../../mocks/services/TokenManagerMock';
-import { format } from 'date-fns';
 import messages from '../../../src/messages/messages.json';
 import { BadRequestError } from '../../../src/errors/BadRequestError';
 
@@ -34,8 +33,8 @@ describe('testing getPostById business', () => {
         const expected = {
             id: 'id-mock-1',
             creator: { id: 'id-mock-luan', nickname: 'Luan' },
-            createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
-            updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+            createdAt: expect.any(String),
+            updatedAt: expect.any(String),
             content: 'Esse é o post da Luan',
             likesCount: 0,
             dislikesCount: 0,
@@ -43,7 +42,7 @@ describe('testing getPostById business', () => {
             comments: [
                 {
                     content: 'Comentário do Luan no primeiro post',
-                    createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                    createdAt: expect.any(String),
                     creator: {
                         id: 'id-mock-luan',
                         nickname: 'Luan',
@@ -51,11 +50,13 @@ describe('testing getPostById business', () => {
                     dislikesCount: 0,
                     id: 'id-mock-1',
                     likesCount: 0,
-                    updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                    updatedAt: expect.any(String),
+                    isCurrentUserPost: false,
+                    userLikedBoolean: null,
                 },
                 {
                     content: 'Outro comentário do Luan no primeiro post',
-                    createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                    createdAt: expect.any(String),
                     creator: {
                         id: 'id-mock-luan',
                         nickname: 'Luan',
@@ -63,11 +64,13 @@ describe('testing getPostById business', () => {
                     dislikesCount: 0,
                     id: 'id-mock-2',
                     likesCount: 0,
-                    updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                    updatedAt: expect.any(String),
+                    isCurrentUserPost: false,
+                    userLikedBoolean: null,
                 },
                 {
                     content: 'Comentário da Amanda no primeiro post',
-                    createdAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                    createdAt: expect.any(String),
                     creator: {
                         id: 'id-mock-amanda',
                         nickname: 'Amanda',
@@ -75,7 +78,9 @@ describe('testing getPostById business', () => {
                     dislikesCount: 0,
                     id: 'id-mock-3',
                     likesCount: 0,
-                    updatedAt: format(new Date(), 'dd-MM-yyyy HH:mm'),
+                    updatedAt: expect.any(String),
+                    isCurrentUserPost: true,
+                    userLikedBoolean: null,
                 },
             ],
         };

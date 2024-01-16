@@ -18,12 +18,12 @@ export class PostDatabase extends BaseDatabase {
                 PostDatabase.TABLE_POSTS
             )
                 .where('content', 'LIKE', `%${q}%`)
-                .orderBy('created_at', 'DESC');
+                .orderBy('updated_at', 'DESC');
             postsDB = result;
         } else {
             const result: PostDB[] = await BaseDatabase.connection(
                 PostDatabase.TABLE_POSTS
-            ).orderBy('created_at', 'DESC');
+            ).orderBy('updated_at', 'DESC');
             postsDB = result;
         }
 

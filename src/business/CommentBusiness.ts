@@ -91,6 +91,7 @@ export class CommentBusiness {
                 updatedAt: comment.updatedAt,
                 likesCount: comment.likesCount,
                 dislikesCount: comment.dislikesCount,
+                isCurrentUserPost: comment.creatorId === payload.id,
             };
         });
 

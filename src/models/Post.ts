@@ -44,6 +44,7 @@ export interface GetPost {
         updatedAt: string;
         likesCount: number;
         dislikesCount: number;
+        isCurrentUserPost?: boolean;
     }[];
 }
 
