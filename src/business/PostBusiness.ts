@@ -291,7 +291,7 @@ export class PostBusiness {
                         content: comment.content,
                         likesCount: comment.likes_count,
                         dislikesCount: comment.dislikes_count,
-                        isCurrentUserPost: payload.id === comment.creator_id,
+                        isCurrentUserComment: payload.id === comment.creator_id,
                         userLikedBoolean,
                     };
                 })

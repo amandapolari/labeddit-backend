@@ -51,7 +51,7 @@ describe('testing getPostById business', () => {
                     id: 'id-mock-1',
                     likesCount: 0,
                     updatedAt: expect.any(String),
-                    isCurrentUserPost: false,
+                    isCurrentUserComment: false,
                     userLikedBoolean: null,
                 },
                 {
@@ -65,7 +65,7 @@ describe('testing getPostById business', () => {
                     id: 'id-mock-2',
                     likesCount: 0,
                     updatedAt: expect.any(String),
-                    isCurrentUserPost: false,
+                    isCurrentUserComment: false,
                     userLikedBoolean: null,
                 },
                 {
@@ -79,7 +79,7 @@ describe('testing getPostById business', () => {
                     id: 'id-mock-3',
                     likesCount: 0,
                     updatedAt: expect.any(String),
-                    isCurrentUserPost: true,
+                    isCurrentUserComment: true,
                     userLikedBoolean: null,
                 },
             ],
