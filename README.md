@@ -1,6 +1,11 @@
-# Projeto Labeddit Backend
+<h1 align="center">Projeto Labeddit Backend</h1>
+<div align="center">
 
-> Back-end do projeto Labeddit
+> Clique [aqui]() para acessar repositório do Front-End do projeto Labeddit
+
+<!-- ![funcionamento-site-gif](./pokedex/src/assets/images/site.gif) -->
+
+</div>
 
 ![Alt text](./src/images/doc-postman.png)
 
@@ -16,7 +21,9 @@ Clique [**AQUI**](https://documenter.getpostman.com/view/28316385/2s9Ykq713o) pa
 
 <br>
 
-<p align="center"><strong>Status do Projeto:<br></strong>Concluído ✔</p>
+<p align="center"><strong>Status do Projeto:<br><i>Em construção</i> 🚧
+
+<!-- <i>Concluído</i> ✔ -->
 
 ## Índice
 
