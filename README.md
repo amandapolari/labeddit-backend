@@ -1,7 +1,7 @@
 <h1 align="center">Projeto Labeddit Backend</h1>
 <div align="center">
 
-> Clique [aqui]() para acessar repositório do Front-End do projeto Labeddit
+> Clique [aqui](https://github.com/amandapolari/labeddit-frontend) para acessar repositório do Front-End do projeto Labeddit
 
 <!-- ![funcionamento-site-gif](./pokedex/src/assets/images/site.gif) -->
 
