@@ -3,11 +3,9 @@
 
 > Clique [aqui](https://github.com/amandapolari/labeddit-frontend) para acessar repositório do Front-End do projeto Labeddit
 
-<!-- ![funcionamento-site-gif](./pokedex/src/assets/images/site.gif) -->
+![funcionamento-site-gif](./src/images/postman-endpoints.gif)
 
 </div>
-
-![Alt text](./src/images/doc-postman.png)
 
 <div align="center">
 
@@ -21,9 +19,7 @@ Clique [**AQUI**](https://documenter.getpostman.com/view/28316385/2s9Ykq713o) pa
 
 <br>
 
-<p align="center"><strong>Status do Projeto:<br><i>Em construção</i> 🚧
-
-<!-- <i>Concluído</i> ✔ -->
+<p align="center"><strong>Status do Projeto:<br> <i>Concluído</i> ✔</p>
 
 ## Índice
 
@@ -1039,7 +1035,7 @@ Este endpoint tem como objetivo dar um like em um comentário. Para uma requisi�
 [✔] Endpoints seguindo as boas práticas HTTP <br>
 [✔] Uso do ExpressJS, Typescript e SQLite <br>
 [✔] Cobertura de testes (pelo menos 70% da Business) <br>
-[ - ] API deployada <br>
+[✔] API deployada <br>
 [✔] Documentação README e POSTMAN <br>
 
 ## Desenvolvedora
