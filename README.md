@@ -1,25 +1,22 @@
 <h1 align="center">Projeto Labeddit Backend</h1>
 <div align="center">
 
-> Clique [aqui](https://github.com/amandapolari/labeddit-frontend) para acessar repositório do Front-End do projeto Labeddit
-
 ![funcionamento-site-gif](./src/images/postman-endpoints.gif)
 
-</div>
-
-<div align="center">
-
-Clique [**AQUI**](https://documenter.getpostman.com/view/28316385/2s9Ykq713o) para conferir o resultado final da API!
+Clique [**AQUI**](https://documenter.getpostman.com/view/28316385/2s9Ykq713o) para consultar a documentação da API!
 
 <br>
   <a href="https://skillicons.dev">
     <img src="https://skillicons.dev/icons?i=nodejs,typescript,express,mysql,sqlite,postman," style="height: 25px;"/>
   </a>
-</div>
 
 <br>
 
 <p align="center"><strong>Status do Projeto:<br> <i>Concluído</i> ✔</p>
+
+> Clique [aqui](https://github.com/amandapolari/labeddit-frontend) para acessar repositório do Front-End do projeto Labeddit
+
+</div>
 
 ## Índice
 
