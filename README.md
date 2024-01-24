@@ -181,7 +181,7 @@ Segue a lista dos testes disponíveis:
 
 Clique [**AQUI**](https://documenter.getpostman.com/view/28316385/2s9Ykq713o) para visualizar a documentação da [**API LABEDDIT**](https://documenter.getpostman.com/view/28316385/2s9Ykq713o).
 
-A base URL para esta API é **`http://localhost:3003`**
+A base URL para esta API é **`https://labeddit-backend-kul7.onrender.com`**
 
 Os endpoints estão divididos em pastas de acordo com o que é gerenciado.
 A API fornece os seguintes endpoints:
